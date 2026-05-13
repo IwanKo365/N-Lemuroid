@@ -1,14 +1,5 @@
 # N-Lemuroid
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-     alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/com.swordfish.lemuroid/)
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
-     alt="Get it on Google Play"
-     height="80">](https://play.google.com/store/apps/details?id=com.swordfish.lemuroid)
-
-Not avaiable right now since the fork is still being worked on.
-
 ## Description
 
 N-Lemuroid is a fork of the Lemuroid project based on Nothing OS. Lemuroid is an open-source emulation project for Android based on Libretro. Its main goal is ease of use, good Android integration and a great user experience.
