@@ -7,15 +7,17 @@
      alt="Get it on Google Play"
      height="80">](https://play.google.com/store/apps/details?id=com.swordfish.lemuroid)
 
+Not avaiable right now since the fork is still being worked on.
+
 ## Description
 
-N-Lemuroid is an open-source emulation project for Android based on Libretro. Its main goal is ease of use, good Android integration and a great user experience.
+N-Lemuroid is a fork of the Lemuroid project based on Nothing OS. Lemuroid is an open-source emulation project for Android based on Libretro. Its main goal is ease of use, good Android integration and a great user experience.
 
 It originated from a rib of [Retrograde](https://github.com/retrograde/retrograde-android), but graduated to a standalone project integrating [LibretroDroid](https://github.com/Swordfish90/LibretroDroid).
 
 |Screen 1|Screen 2|Screen 3|
 |---|---|---|
-|![Screen1](https://github.com/Swordfish90/Lemuroid/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg)|![Screen2](https://github.com/Swordfish90/Lemuroid/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg)|![Screen3](https://github.com/Swordfish90/Lemuroid/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg)|
+|![Screen1](screenshots/screen1.png)|![Screen2](screenshots/screen2.png)|![Screen3](screenshots/screen3.png)|
 
 ### Supported Systems:
 - Atari 2600 (A26) ([stella](https://docs.libretro.com/library/stella/))
