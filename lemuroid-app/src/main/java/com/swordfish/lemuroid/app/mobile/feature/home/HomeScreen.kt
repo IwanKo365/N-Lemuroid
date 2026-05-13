@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -23,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -207,6 +209,10 @@ private fun HomeNotification(
             Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp),
+        colors = CardDefaults.elevatedCardColors( // changes the colors of the pop-up for notifications
+            containerColor = Color(0xFF0D0D0D),
+            contentColor = Color(0xFFF0F0F0),
+        ),
     ) {
         Column(
             modifier =

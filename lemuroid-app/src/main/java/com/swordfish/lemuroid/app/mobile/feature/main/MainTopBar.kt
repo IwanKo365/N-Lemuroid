@@ -42,10 +42,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.swordfish.lemuroid.R
 import com.swordfish.lemuroid.app.shared.savesync.SaveSyncWork
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.Font
 
 @Composable
 fun MainTopBar(
@@ -80,7 +83,7 @@ fun LemuroidTopAppBar(
     onUpdateQueryString: (String) -> Unit,
 ) {
     val context = LocalContext.current
-    val topBarColor = BottomAppBarDefaults.containerColor
+    val topBarColor = Color(0xFF0D0D0D) // This is the color of the topbar
 
     TopAppBar(
         title = {
@@ -90,7 +93,13 @@ fun LemuroidTopAppBar(
                     onUpdateQueryString = onUpdateQueryString,
                 )
             } else {
-                Text(text = stringResource(route.titleId))
+                Text(
+                    text = stringResource(route.titleId),
+                    fontFamily = FontFamily(
+                        Font(R.font.playfairdisplayvariablefont_wght)
+                    ),
+                    letterSpacing = 0.05.em,
+                )
             }
         },
         colors =

@@ -2,12 +2,6 @@ package com.swordfish.touchinput.radial.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
@@ -16,6 +10,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.swordfish.touchinput.radial.LocalLemuroidPadTheme
 import gg.padkit.ui.DefaultCrossForeground
 
+/**
+ * Nothing OS dot matrix D-pad.
+ * Arrows are drawn as pixel/dot grids instead of Material icons.
+ *
+ * Drop this into:
+ * lemuroid-touchinput/src/main/java/com/swordfish/touchinput/radial/ui/LemuroidCrossForeground.kt
+ */
 @Composable
 fun LemuroidCrossForeground(
     allowDiagonals: Boolean,
@@ -25,38 +26,82 @@ fun LemuroidCrossForeground(
         modifier = Modifier.fillMaxSize(),
         directionState = directionState,
         allowDiagonals = allowDiagonals,
-        leftDial = {
-            LemuroidCrossButton(it, Icons.Default.KeyboardArrowLeft)
-        },
-        rightDial = {
-            LemuroidCrossButton(it, Icons.Default.KeyboardArrowRight)
-        },
-        topDial = {
-            LemuroidCrossButton(it, Icons.Default.KeyboardArrowUp)
-        },
-        bottomDial = {
-            LemuroidCrossButton(it, Icons.Default.KeyboardArrowDown)
-        },
-        foregroundComposite = {
-            LemuroidCompositeForeground(it)
-        },
+        leftDial  = { LemuroidDotArrowButton(it, DotArrowDirection.LEFT) },
+        rightDial = { LemuroidDotArrowButton(it, DotArrowDirection.RIGHT) },
+        topDial   = { LemuroidDotArrowButton(it, DotArrowDirection.UP) },
+        bottomDial = { LemuroidDotArrowButton(it, DotArrowDirection.DOWN) },
+        foregroundComposite = { LemuroidCompositeForeground(it) },
     )
 }
 
+// ── Direction enum ────────────────────────────────────────────────────────────
+
+enum class DotArrowDirection { UP, DOWN, LEFT, RIGHT }
+
+// ── Dot matrix arrow bitmaps (5×5 grids, 1 = dot on) ────────────────────────
+//
+//  UP          DOWN        LEFT        RIGHT
+//  . . X . .   . . x . .   . . X . .   . . X . .
+//  . X X X .   . . X . .   . X X . .   . . X X .
+//  X X X X X   X X X X X   X X X X X   X X X X X
+//  . . X . .   . X X X .   . X X . .   . . X X .
+//  . . x . .   . . X . .   . . X . .   . . X . .
+
+private val DOT_UP = arrayOf(
+    intArrayOf(0,0,1,0,0),
+    intArrayOf(0,1,1,1,0),
+    intArrayOf(1,1,1,1,1),
+    intArrayOf(0,0,1,0,0),
+    intArrayOf(0,0,1,0,0),
+)
+
+private val DOT_DOWN = arrayOf(
+    intArrayOf(0,0,1,0,0),
+    intArrayOf(0,0,1,0,0),
+    intArrayOf(1,1,1,1,1),
+    intArrayOf(0,1,1,1,0),
+    intArrayOf(0,0,1,0,0),
+)
+
+private val DOT_LEFT = arrayOf(
+    intArrayOf(0,0,1,0,0),
+    intArrayOf(0,1,1,0,0),
+    intArrayOf(1,1,1,1,1),
+    intArrayOf(0,1,1,0,0),
+    intArrayOf(0,0,1,0,0),
+)
+
+private val DOT_RIGHT = arrayOf(
+    intArrayOf(0,0,1,0,0),
+    intArrayOf(0,0,1,1,0),
+    intArrayOf(1,1,1,1,1),
+    intArrayOf(0,0,1,1,0),
+    intArrayOf(0,0,1,0,0),
+)
+
+fun dotGridFor(direction: DotArrowDirection) = when (direction) {
+    DotArrowDirection.UP    -> DOT_UP
+    DotArrowDirection.DOWN  -> DOT_DOWN
+    DotArrowDirection.LEFT  -> DOT_LEFT
+    DotArrowDirection.RIGHT -> DOT_RIGHT
+}
+
+// ── Composable ────────────────────────────────────────────────────────────────
+
 @Composable
-private fun LemuroidCrossButton(
+fun LemuroidDotArrowButton(
     pressedState: State<Boolean>,
-    imageVector: ImageVector,
+    direction: DotArrowDirection,
 ) {
     LemuroidButtonForeground(
         pressed = pressedState,
         label = { },
         icon = {
-            Icon(
-                modifier = Modifier.size(maxWidth * 0.5f, maxHeight * 0.5f),
-                imageVector = imageVector,
-                contentDescription = "",
-                tint = LocalLemuroidPadTheme.current.icons(pressedState.value),
+            NothingDotArrow(
+                modifier = Modifier
+                    .size(maxWidth * 0.55f, maxHeight * 0.55f),
+                direction = direction,
+                pressed = pressedState,
             )
         },
     )

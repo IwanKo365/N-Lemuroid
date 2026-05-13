@@ -4,18 +4,21 @@ import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import com.swordfish.lemuroid.common.compose.textUnit
 import com.swordfish.touchinput.radial.LocalLemuroidPadTheme
 
+/**
+ * Nothing OS version of LemuroidButtonForeground.
+ * Labels (A, B, X, Y...) are rendered as 5×5 dot matrix glyphs via NothingDotLabel.
+ * Icons (Start, Select, Menu) keep using vector drawables.
+ *
+ * Replaces:
+ * lemuroid-touchinput/src/main/java/com/swordfish/touchinput/radial/ui/LemuroidButtonForeground.kt
+ */
 @Composable
 fun LemuroidButtonForeground(
     modifier: Modifier = Modifier,
@@ -49,7 +52,16 @@ fun LemuroidButtonForeground(
     LemuroidButtonForeground(
         modifier = modifier,
         pressed = pressed,
-        label = { LemuroidButtonForegroundLabel(label, labelScale, pressed) },
+        // Dot matrix label instead of Text
+        label = {
+            if (label != null) {
+                NothingDotLabel(
+                    modifier = Modifier.size(maxWidth * 0.62f * labelScale, maxHeight * 0.62f * labelScale),
+                    text = label,
+                    pressed = pressed,
+                )
+            }
+        },
         icon = { LemuroidButtonForegroundIcon(icon, iconScale, pressed) },
     )
 }
@@ -61,29 +73,10 @@ private fun BoxWithConstraintsScope.LemuroidButtonForegroundIcon(
     pressedState: State<Boolean>,
 ) {
     if (icon == null) return
-
     Icon(
         modifier = Modifier.size(maxWidth * scale, maxHeight * scale),
         painter = painterResource(icon),
         contentDescription = "",
         tint = LocalLemuroidPadTheme.current.icons(pressedState.value),
-    )
-}
-
-@Composable
-private fun BoxWithConstraintsScope.LemuroidButtonForegroundLabel(
-    label: String?,
-    scale: Float,
-    pressedState: State<Boolean>,
-) {
-    if (label == null) return
-    val fontSize = minOf(maxHeight * 0.5f * scale, maxWidth / label.length * scale)
-    Text(
-        modifier = Modifier.wrapContentSize(),
-        textAlign = TextAlign.Center,
-        fontWeight = FontWeight.Bold,
-        text = label,
-        color = LocalLemuroidPadTheme.current.icons(pressedState.value),
-        fontSize = fontSize.textUnit(),
     )
 }

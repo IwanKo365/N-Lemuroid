@@ -1,6 +1,5 @@
 package com.swordfish.touchinput.radial.ui
 
-import android.graphics.BlurMaskFilter
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.runtime.Composable
@@ -10,117 +9,61 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import kotlin.math.ceil
 
-private object ShadowCache {
-    private val bitmapCache = mutableMapOf<String, ImageBitmap>()
-
-    fun getOrCreate(
-        width: Int,
-        height: Int,
-        cornerRadius: Float,
-        shadowColor: Color,
-        blurRadius: Float,
-        padding: Int,
-    ): ImageBitmap {
-        val key = "$width-$height-$cornerRadius-${shadowColor.toArgb()}-$blurRadius-$padding"
-        return bitmapCache.getOrPut(key) {
-            val bitmapWidth = width + padding * 2
-            val bitmapHeight = height + padding * 2
-            val bitmap = ImageBitmap(bitmapWidth, bitmapHeight)
-            val canvas = Canvas(bitmap)
-
-            val frameworkPaint =
-                android.graphics.Paint().apply {
-                    isAntiAlias = true
-                    color = shadowColor.toArgb()
-                    maskFilter = BlurMaskFilter(blurRadius, BlurMaskFilter.Blur.NORMAL)
-                }
-
-            canvas.nativeCanvas.drawRoundRect(
-                padding.toFloat(),
-                padding.toFloat(),
-                padding.toFloat() + width.toFloat(),
-                padding.toFloat() + height.toFloat(),
-                cornerRadius,
-                cornerRadius,
-                frameworkPaint,
-            )
-
-            bitmap
-        }
-    }
-}
-
+/**
+ * Nothing OS GlassSurface — circular buttons with thin border, flat fill.
+ * cornerRadius defaults to Dp.Infinity (fully round) to match the original
+ * ControlFaceButtons layout geometry and eliminate overlap.
+ *
+ * Replaces:
+ * lemuroid-touchinput/src/main/java/com/swordfish/touchinput/radial/ui/GlassSurface.kt
+ */
 @Composable
 fun GlassSurface(
     modifier: Modifier = Modifier,
-    cornerRadius: Dp = Dp.Infinity,
-    fillColor: Color = Color.White.copy(alpha = 0.15f),
-    shadowColor: Color = Color.Black.copy(alpha = 0.3f),
-    shadowWidth: Dp = 1.dp,
-    content: @Composable BoxWithConstraintsScope.() -> Unit = { },
+    cornerRadius: Dp = Dp.Infinity,            // Fully circular — matches original layout
+    fillColor: Color = Color.White.copy(alpha = 0.06f),
+    shadowColor: Color = Color.Transparent,    // No soft shadows — Nothing OS style
+    shadowWidth: Dp = 0.dp,                    // Ignored
+    content: @Composable BoxWithConstraintsScope.() -> Unit = {},
 ) {
+    // Thin white border — the dot matrix panel feel
+    val borderColor = Color.White.copy(alpha = 0.18f)
+    val borderWidth = 1.dp
+
     BoxWithConstraints(
         contentAlignment = Alignment.Center,
-        modifier =
-            modifier.drawWithCache {
-                val blurRadiusPx = shadowWidth.toPx()
+        modifier = modifier.drawWithCache {
+            val cr = if (cornerRadius == Dp.Infinity) {
+                size.minDimension / 2f
+            } else {
+                cornerRadius.toPx().coerceAtMost(size.minDimension / 2f)
+            }
+            val bw = borderWidth.toPx()
 
-                val expandedWidth = size.width
-                val expandedHeight = size.height
-
-                if (expandedWidth <= 0f || expandedHeight <= 0f) {
-                    return@drawWithCache onDrawWithContent {
-                        drawContent()
-                    }
-                }
-
-                val expandedSize = Size(expandedWidth, expandedHeight)
-
-                val cornerRadiusPx = minOf(cornerRadius.toPx(), expandedSize.minDimension / 2f)
-
-                val shouldDrawShadow = shadowColor.alpha > 0f && blurRadiusPx > 0f
-                val shadowPaddingPx = if (shouldDrawShadow) blurRadiusPx else 0f
-                val shadowPadding = ceil(shadowPaddingPx).toInt().coerceAtLeast(0)
-
-                val shadowBitmap =
-                    if (shouldDrawShadow) {
-                        ShadowCache.getOrCreate(
-                            width = expandedSize.width.toInt().coerceAtLeast(1),
-                            height = expandedSize.height.toInt().coerceAtLeast(1),
-                            cornerRadius = cornerRadiusPx,
-                            shadowColor = shadowColor,
-                            blurRadius = blurRadiusPx,
-                            padding = shadowPadding,
-                        )
-                    } else {
-                        null
-                    }
-
-                onDrawWithContent {
-                    if (shadowBitmap != null) {
-                        val shadowOffset = -Offset(shadowPadding.toFloat(), shadowPadding.toFloat())
-                        drawImage(shadowBitmap, topLeft = shadowOffset)
-                    }
-
-                    drawRoundRect(
-                        color = fillColor,
-                        topLeft = Offset(0f, 0f),
-                        size = expandedSize,
-                        cornerRadius = CornerRadius(cornerRadiusPx, cornerRadiusPx),
-                    )
-
-                    drawContent()
-                }
-            },
+            onDrawWithContent {
+                // Flat fill
+                drawRoundRect(
+                    color = fillColor,
+                    topLeft = Offset.Zero,
+                    size = size,
+                    cornerRadius = CornerRadius(cr, cr),
+                )
+                // Thin circular border
+                drawRoundRect(
+                    color = borderColor,
+                    topLeft = Offset(bw / 2f, bw / 2f),
+                    size = Size(size.width - bw, size.height - bw),
+                    cornerRadius = CornerRadius(cr, cr),
+                    style = Stroke(width = bw),
+                )
+                drawContent()
+            }
+        },
         content = content,
     )
 }

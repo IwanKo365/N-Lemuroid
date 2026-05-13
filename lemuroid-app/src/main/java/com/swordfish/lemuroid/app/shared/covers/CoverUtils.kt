@@ -9,18 +9,23 @@ import coil.load
 import coil.memory.MemoryCache
 import coil.request.CachePolicy
 import com.swordfish.lemuroid.common.drawable.TextDrawable
-import com.swordfish.lemuroid.common.graphics.ColorUtils
 import com.swordfish.lemuroid.lib.library.db.entity.Game
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 
+/**
+ * Nothing OS version — fallback covers use Nothing red (#FF3B30) always.
+ * The random rainbow color is replaced with a fixed Nothing red.
+ *
+ * Replaces:
+ * lemuroid-app/src/main/java/com/swordfish/lemuroid/app/shared/covers/CoverUtils.kt
+ */
 object CoverUtils {
-    fun loadCover(
-        game: Game,
-        imageView: ImageView?,
-    ) {
-        if (imageView == null) return
+    // Nothing red — consistent with the rest of the UI
+    private const val NOTHING_RED = 0xFF0D0D0D.toInt()
 
+    fun loadCover(game: Game, imageView: ImageView?) {
+        if (imageView == null) return
         imageView.load(game.coverFrontUrl, imageView.context.imageLoader) {
             val fallbackDrawable = getFallbackDrawable(game)
             fallback(fallbackDrawable)
@@ -54,28 +59,21 @@ object CoverUtils {
             .build()
     }
 
-    fun getFallbackDrawable(game: Game) = TextDrawable(computeTitle(game), computeColor(game))
+    fun getFallbackDrawable(game: Game) = TextDrawable(computeTitle(game), NOTHING_RED)
 
     fun getFallbackRemoteUrl(game: Game): String {
-        val color = Integer.toHexString(computeColor(game)).substring(2)
+        val color = "FF3B30"   // Always Nothing red in remote placeholder too
         val title = computeTitle(game)
         return "https://fakeimg.pl/512x512/$color/fff/?font=bebas&text=$title"
     }
 
     private fun computeTitle(game: Game): String {
-        val sanitizedName =
-            game.title
-                .replace(Regex("\\(.*\\)"), "")
-
+        val sanitizedName = game.title.replace(Regex("\\(.*\\)"), "")
         return sanitizedName.asSequence()
             .filter { it.isDigit() or it.isUpperCase() or (it == '&') }
             .take(3)
             .joinToString("")
             .ifBlank { game.title.first().toString() }
             .capitalize()
-    }
-
-    private fun computeColor(game: Game): Int {
-        return ColorUtils.randomColor(game.title)
     }
 }
