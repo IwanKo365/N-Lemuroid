@@ -28,6 +28,13 @@ private val GLYPH_A = arrayOf(
     intArrayOf(1,0,0,0,1),
     intArrayOf(1,0,0,0,1),
 )
+private val GLYPH_N = arrayOf(
+    intArrayOf(1,0,0,0,1),
+    intArrayOf(1,1,0,0,1),
+    intArrayOf(1,0,1,0,1),
+    intArrayOf(1,0,0,1,1),
+    intArrayOf(1,0,0,0,1),
+)
 private val GLYPH_B = arrayOf(
     intArrayOf(1,1,1,1,0),
     intArrayOf(1,0,0,0,1),
@@ -101,6 +108,7 @@ private val GLYPH_UNKNOWN = arrayOf(
 
 private fun glyphFor(char: Char): Array<IntArray> = when (char.uppercaseChar()) {
     'A'  -> GLYPH_A
+    'N'  -> GLYPH_N
     'B'  -> GLYPH_B
     'X'  -> GLYPH_X
     'Y'  -> GLYPH_Y
