@@ -24,7 +24,10 @@ object CoverUtils {
     // Nothing red — consistent with the rest of the UI
     private const val NOTHING_RED = 0xFF0D0D0D.toInt()
 
-    fun loadCover(game: Game, imageView: ImageView?) {
+    fun loadCover(
+        game: Game,
+        imageView: ImageView?,
+    ) {
         if (imageView == null) return
         imageView.load(game.coverFrontUrl, imageView.context.imageLoader) {
             val fallbackDrawable = getFallbackDrawable(game)
@@ -62,7 +65,7 @@ object CoverUtils {
     fun getFallbackDrawable(game: Game) = TextDrawable(computeTitle(game), NOTHING_RED)
 
     fun getFallbackRemoteUrl(game: Game): String {
-        val color = "FF3B30"   // Always Nothing red in remote placeholder too
+        val color = "FF3B30" // Always Nothing red in remote placeholder too
         val title = computeTitle(game)
         return "https://fakeimg.pl/512x512/$color/fff/?font=bebas&text=$title"
     }

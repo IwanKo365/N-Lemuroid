@@ -25,10 +25,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun GlassSurface(
     modifier: Modifier = Modifier,
-    cornerRadius: Dp = Dp.Infinity,            // Fully circular — matches original layout
+    cornerRadius: Dp = Dp.Infinity,
     fillColor: Color = Color.White.copy(alpha = 0.06f),
-    shadowColor: Color = Color.Transparent,    // No soft shadows — Nothing OS style
-    shadowWidth: Dp = 0.dp,                    // Ignored
+    shadowColor: Color = Color.Transparent,
+    shadowWidth: Dp = 0.dp,
     content: @Composable BoxWithConstraintsScope.() -> Unit = {},
 ) {
     // Thin white border — the dot matrix panel feel
@@ -37,33 +37,35 @@ fun GlassSurface(
 
     BoxWithConstraints(
         contentAlignment = Alignment.Center,
-        modifier = modifier.drawWithCache {
-            val cr = if (cornerRadius == Dp.Infinity) {
-                size.minDimension / 2f
-            } else {
-                cornerRadius.toPx().coerceAtMost(size.minDimension / 2f)
-            }
-            val bw = borderWidth.toPx()
+        modifier =
+            modifier.drawWithCache {
+                val cr =
+                    if (cornerRadius == Dp.Infinity) {
+                        size.minDimension / 2f
+                    } else {
+                        cornerRadius.toPx().coerceAtMost(size.minDimension / 2f)
+                    }
+                val bw = borderWidth.toPx()
 
-            onDrawWithContent {
-                // Flat fill
-                drawRoundRect(
-                    color = fillColor,
-                    topLeft = Offset.Zero,
-                    size = size,
-                    cornerRadius = CornerRadius(cr, cr),
-                )
-                // Thin circular border
-                drawRoundRect(
-                    color = borderColor,
-                    topLeft = Offset(bw / 2f, bw / 2f),
-                    size = Size(size.width - bw, size.height - bw),
-                    cornerRadius = CornerRadius(cr, cr),
-                    style = Stroke(width = bw),
-                )
-                drawContent()
-            }
-        },
+                onDrawWithContent {
+                    // Flat fill
+                    drawRoundRect(
+                        color = fillColor,
+                        topLeft = Offset.Zero,
+                        size = size,
+                        cornerRadius = CornerRadius(cr, cr),
+                    )
+                    // Thin circular border
+                    drawRoundRect(
+                        color = borderColor,
+                        topLeft = Offset(bw / 2f, bw / 2f),
+                        size = Size(size.width - bw, size.height - bw),
+                        cornerRadius = CornerRadius(cr, cr),
+                        style = Stroke(width = bw),
+                    )
+                    drawContent()
+                }
+            },
         content = content,
     )
 }

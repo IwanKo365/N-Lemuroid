@@ -36,7 +36,7 @@ fun LemuroidSystemCard(
     ElevatedCard(
         modifier = modifier,
         onClick = onClick,
-        colors = CardDefaults.elevatedCardColors (containerColor = Color(0xFF111111))
+        colors = CardDefaults.elevatedCardColors(containerColor = Color(0xFF111111)),
     ) {
         Column(
             modifier =

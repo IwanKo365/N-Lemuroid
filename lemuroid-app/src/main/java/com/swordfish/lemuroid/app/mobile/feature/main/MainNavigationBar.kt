@@ -16,10 +16,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 
-private val NothingRed      = Color(0xFFFFFFFF)
+private val NothingRed = Color(0xFFFFFFFF)
 private val NothingRedFaint = Color(0xFFFF3B30)
-private val Muted           = Color(0xFF666666)
-private val NavBg           = Color(0xFF111111)
+private val Muted = Color(0xFF666666)
+private val NavBg = Color(0xFF111111)
 
 @Composable
 fun MainNavigationBar(
@@ -57,13 +57,14 @@ private fun LemuroidNavigationBar(
                 },
                 label = { Text(stringResource(destination.titleId)) },
                 selected = isSelected,
-                colors = NavigationBarItemDefaults.colors(
-                    indicatorColor      = NothingRedFaint,
-                    selectedIconColor   = NothingRed,
-                    selectedTextColor   = NothingRed,
-                    unselectedIconColor = Muted,
-                    unselectedTextColor = Muted,
-                ),
+                colors =
+                    NavigationBarItemDefaults.colors(
+                        indicatorColor = NothingRedFaint,
+                        selectedIconColor = NothingRed,
+                        selectedTextColor = NothingRed,
+                        unselectedIconColor = Muted,
+                        unselectedTextColor = Muted,
+                    ),
                 onClick = {
                     navController.navigate(destination.route.route) {
                         popUpTo(navController.graph.findStartDestination().id) {

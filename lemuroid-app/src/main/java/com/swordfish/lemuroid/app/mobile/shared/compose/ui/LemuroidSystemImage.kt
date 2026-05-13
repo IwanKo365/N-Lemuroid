@@ -28,28 +28,34 @@ import com.swordfish.lemuroid.app.shared.systems.MetaSystemInfo
 private val NothingBlack = Color(0xFF0D0D0D)
 
 // ColorMatrix that turns any color → white (for the dot matrix icons)
-private val whitenMatrix = ColorMatrix(floatArrayOf(
-    0f, 0f, 0f, 0f, 255f,
-    0f, 0f, 0f, 0f, 255f,
-    0f, 0f, 0f, 0f, 255f,
-    0f, 0f, 0f, 1f, 0f,
-))
+private val whitenMatrix =
+    ColorMatrix(
+        floatArrayOf(
+            0f, 0f, 0f, 0f, 255f,
+            0f, 0f, 0f, 0f, 255f,
+            0f, 0f, 0f, 0f, 255f,
+            0f, 0f, 0f, 1f, 0f,
+        ),
+    )
 
 @Composable
 fun LemuroidSystemImage(system: MetaSystemInfo) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(2.0f)          // wider card: 2:1 ratio gives icons more horizontal space
-            .background(NothingBlack),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .aspectRatio(2.0f) // wider card: 2:1 ratio gives icons more horizontal space
+                .background(NothingBlack),
         contentAlignment = Alignment.Center,
     ) {
         Image(
-            modifier = Modifier
-                .fillMaxSize(0.58f),    // smaller fill so tall letters don't dominate
+            modifier =
+                Modifier
+                    .fillMaxSize(0.58f),
+            // smaller fill so tall letters don't dominate
             painter = painterResource(id = system.metaSystem.imageResId),
             contentDescription = stringResource(id = system.metaSystem.titleResId),
-            contentScale = ContentScale.Fit,   // Fit instead of FillBounds keeps aspect ratio
+            contentScale = ContentScale.Fit,
             colorFilter = ColorFilter.colorMatrix(whitenMatrix),
         )
     }

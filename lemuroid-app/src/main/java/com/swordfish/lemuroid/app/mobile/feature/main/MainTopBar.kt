@@ -19,7 +19,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.CloudSync
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,14 +40,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.swordfish.lemuroid.R
 import com.swordfish.lemuroid.app.shared.savesync.SaveSyncWork
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.Font
 
 @Composable
 fun MainTopBar(
@@ -95,9 +94,10 @@ fun LemuroidTopAppBar(
             } else {
                 Text(
                     text = stringResource(route.titleId),
-                    fontFamily = FontFamily(
-                        Font(R.font.playfairdisplayvariablefont_wght)
-                    ),
+                    fontFamily =
+                        FontFamily(
+                            Font(R.font.playfairdisplayvariablefont_wght),
+                        ),
                     letterSpacing = 0.05.em,
                 )
             }

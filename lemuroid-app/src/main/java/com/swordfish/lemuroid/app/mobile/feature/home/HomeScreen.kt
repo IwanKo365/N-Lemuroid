@@ -209,10 +209,11 @@ private fun HomeNotification(
             Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp),
-        colors = CardDefaults.elevatedCardColors( // changes the colors of the pop-up for notifications
-            containerColor = Color(0xFF0D0D0D),
-            contentColor = Color(0xFFF0F0F0),
-        ),
+        colors =
+            CardDefaults.elevatedCardColors(
+                containerColor = Color(0xFF0D0D0D),
+                contentColor = Color(0xFFF0F0F0),
+            ),
     ) {
         Column(
             modifier =
