@@ -82,7 +82,7 @@ fun LemuroidTopAppBar(
     onUpdateQueryString: (String) -> Unit,
 ) {
     val context = LocalContext.current
-    val topBarColor = Color(0xFF0D0D0D) // This is the color of the topbar
+    val topBarColor = MaterialTheme.colorScheme.background
 
     TopAppBar(
         title = {

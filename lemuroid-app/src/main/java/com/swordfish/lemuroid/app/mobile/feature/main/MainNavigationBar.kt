@@ -5,6 +5,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -15,11 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-
-private val NothingRed = Color(0xFFFFFFFF)
-private val NothingRedFaint = Color(0xFFFF3B30)
-private val Muted = Color(0xFF666666)
-private val NavBg = Color(0xFF111111)
 
 @Composable
 fun MainNavigationBar(
@@ -42,7 +38,7 @@ private fun LemuroidNavigationBar(
 ) {
     NavigationBar(
         modifier = Modifier.fillMaxWidth(),
-        containerColor = NavBg,
+        containerColor = MaterialTheme.colorScheme.surface,
     ) {
         MainNavigationRoutes.values().forEach { destination ->
             val isSelected = currentRoute?.root == destination.route
@@ -59,11 +55,11 @@ private fun LemuroidNavigationBar(
                 selected = isSelected,
                 colors =
                     NavigationBarItemDefaults.colors(
-                        indicatorColor = NothingRedFaint,
-                        selectedIconColor = NothingRed,
-                        selectedTextColor = NothingRed,
-                        unselectedIconColor = Muted,
-                        unselectedTextColor = Muted,
+                        indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     ),
                 onClick = {
                     navController.navigate(destination.route.route) {

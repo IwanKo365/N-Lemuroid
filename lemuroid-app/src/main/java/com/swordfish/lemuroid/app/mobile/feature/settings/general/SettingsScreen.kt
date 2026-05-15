@@ -141,6 +141,18 @@ private fun GeneralSettings() {
     LemuroidCardSettingsGroup(
         title = { Text(text = stringResource(id = R.string.settings_category_general)) },
     ) {
+        LemuroidSettingsList(
+            state =
+                indexPreferenceState(
+                    R.string.pref_key_app_theme,
+                    "system",
+                    stringListResource(R.array.pref_key_app_theme_values),
+                ),
+            title = {
+                Text(text = stringResource(id = R.string.settings_title_app_theme))
+            },
+            items = stringListResource(R.array.pref_key_app_theme_display_names),
+        )
         LemuroidSettingsSwitch(
             state = booleanPreferenceState(R.string.pref_key_autosave, true),
             title = { Text(text = stringResource(id = R.string.settings_title_enable_autosave)) },
