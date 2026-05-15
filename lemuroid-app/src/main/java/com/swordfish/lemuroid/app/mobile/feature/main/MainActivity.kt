@@ -8,7 +8,6 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
@@ -106,18 +105,14 @@ class MainActivity : RetrogradeComponentActivity(), BusyActivity {
     private val reviewManager = ReviewManager()
 
     private val mainViewModel: MainViewModel by viewModels {
-        MainViewModel.Factory(
-            applicationContext,
-            saveSyncManager,
-            FlowSharedPreferences(
-                SharedPreferencesHelper.getLegacySharedPreferences(
-                    applicationContext,
-                ),
-            ),
-        )
+        MainViewModel.Factory(applicationContext, saveSyncManager)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge(
+            SystemBarStyle.dark(Color.TRANSPARENT),
+            SystemBarStyle.dark(Color.TRANSPARENT),
+        )
         super.onCreate(savedInstanceState)
 
         GlobalScope.safeLaunch {
@@ -133,26 +128,7 @@ class MainActivity : RetrogradeComponentActivity(), BusyActivity {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun MainScreen(navController: NavHostController) {
-        val mainUIState =
-            mainViewModel.state
-                .collectAsState(MainViewModel.UiState())
-                .value
-
-        val darkTheme =
-            when (mainUIState.themeMode) {
-                "light" -> false
-                "dark" -> true
-                else -> isSystemInDarkTheme()
-            }
-
-        LaunchedEffect(darkTheme) {
-            enableEdgeToEdge(
-                statusBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT) { darkTheme },
-                navigationBarStyle = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT) { darkTheme },
-            )
-        }
-
-        AppTheme(darkTheme = darkTheme) {
+        AppTheme {
             val navBackStackEntry = navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry.value?.destination
             val currentRoute =

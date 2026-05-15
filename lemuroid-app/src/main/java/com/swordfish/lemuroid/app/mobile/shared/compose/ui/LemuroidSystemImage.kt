@@ -6,14 +6,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,7 +25,9 @@ import com.swordfish.lemuroid.app.shared.systems.MetaSystemInfo
  * - Icon tinted pure white (grayscale + whiten ColorFilter)
  */
 
-// ColorMatrix that turns any color → white
+private val NothingBlack = Color(0xFF0D0D0D)
+
+// ColorMatrix that turns any color → white (for the dot matrix icons)
 private val whitenMatrix =
     ColorMatrix(
         floatArrayOf(
@@ -38,38 +38,25 @@ private val whitenMatrix =
         ),
     )
 
-// ColorMatrix that turns any color → black
-private val blackenMatrix =
-    ColorMatrix(
-        floatArrayOf(
-            0f, 0f, 0f, 0f, 0f,
-            0f, 0f, 0f, 0f, 0f,
-            0f, 0f, 0f, 0f, 0f,
-            0f, 0f, 0f, 1f, 0f,
-        ),
-    )
-
 @Composable
 fun LemuroidSystemImage(system: MetaSystemInfo) {
-    val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
-    val iconMatrix = if (isDark) whitenMatrix else blackenMatrix
-
     Box(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .aspectRatio(2.0f)
-                .background(MaterialTheme.colorScheme.background),
+                .aspectRatio(2.0f) // wider card: 2:1 ratio gives icons more horizontal space
+                .background(NothingBlack),
         contentAlignment = Alignment.Center,
     ) {
         Image(
             modifier =
                 Modifier
                     .fillMaxSize(0.58f),
+            // smaller fill so tall letters don't dominate
             painter = painterResource(id = system.metaSystem.imageResId),
             contentDescription = stringResource(id = system.metaSystem.titleResId),
             contentScale = ContentScale.Fit,
-            colorFilter = ColorFilter.colorMatrix(iconMatrix),
+            colorFilter = ColorFilter.colorMatrix(whitenMatrix),
         )
     }
 }
