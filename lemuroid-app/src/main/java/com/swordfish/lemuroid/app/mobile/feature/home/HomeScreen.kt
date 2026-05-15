@@ -24,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -211,8 +210,8 @@ private fun HomeNotification(
                 .padding(start = 16.dp, end = 16.dp),
         colors =
             CardDefaults.elevatedCardColors(
-                containerColor = Color(0xFF0D0D0D),
-                contentColor = Color(0xFFF0F0F0),
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
             ),
     ) {
         Column(
