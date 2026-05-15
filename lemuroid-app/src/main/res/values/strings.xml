@@ -25,7 +25,18 @@
 
     <string name="settings_category_general">General</string>
     <string name="settings_category_input">Input</string>
+    <string name="settings_category_saves">Saves</string>
     <string name="settings_category_misc">Miscellaneous</string>
+
+    <string name="settings_title_export_saves">Export Saves</string>
+    <string name="settings_description_export_saves">Backup your saves and states to a zip file</string>
+    <string name="settings_title_import_saves">Import Saves</string>
+    <string name="settings_description_import_saves">Restore your saves and states from a zip file</string>
+
+    <string name="settings_saves_export_success">Saves exported successfully</string>
+    <string name="settings_saves_export_failure">Failed to export saves</string>
+    <string name="settings_saves_import_success">Saves imported successfully</string>
+    <string name="settings_saves_import_failure">Failed to import saves</string>
     <string name="settings_title_enable_autosave">Autosave state</string>
     <string name="settings_description_enable_autosave">Save state when exiting via game menu</string>
     <string name="settings_title_enable_touch_feedback">Vibrate on touch</string>

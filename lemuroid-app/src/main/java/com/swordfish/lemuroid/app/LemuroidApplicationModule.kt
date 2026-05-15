@@ -36,6 +36,7 @@ import com.swordfish.lemuroid.app.shared.input.InputDeviceManager
 import com.swordfish.lemuroid.app.shared.main.GameLaunchTaskHandler
 import com.swordfish.lemuroid.app.shared.rumble.RumbleManager
 import com.swordfish.lemuroid.app.shared.settings.ControllerConfigsManager
+import com.swordfish.lemuroid.app.shared.settings.SavesInteractor
 import com.swordfish.lemuroid.app.shared.settings.StorageFrameworkPickerLauncher
 import com.swordfish.lemuroid.app.tv.channel.ChannelHandler
 import com.swordfish.lemuroid.app.tv.settings.BiosPreferences
@@ -364,6 +365,14 @@ abstract class LemuroidApplicationModule {
             context: Context,
             sharedPreferences: Lazy<SharedPreferences>,
         ) = SettingsManager(context, sharedPreferences)
+
+        @Provides
+        @PerApp
+        @JvmStatic
+        fun savesInteractor(
+            context: Context,
+            directoriesManager: DirectoriesManager,
+        ) = SavesInteractor(context, directoriesManager)
 
         @Provides
         @PerApp

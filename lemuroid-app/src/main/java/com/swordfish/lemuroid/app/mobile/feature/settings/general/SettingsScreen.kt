@@ -1,8 +1,12 @@
 package com.swordfish.lemuroid.app.mobile.feature.settings.general
 
 import android.net.Uri
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -31,6 +35,13 @@ fun SettingsScreen(
     viewModel: SettingsViewModel,
     navController: NavController,
 ) {
+    val context = LocalContext.current
+    LaunchedEffect(viewModel.events) {
+        viewModel.events.collect { messageId ->
+            Toast.makeText(context, messageId, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     val state =
         viewModel.uiState
             .collectAsState(SettingsViewModel.State())
@@ -46,12 +57,30 @@ fun SettingsScreen(
             .collectAsState(false)
             .value
 
+    val exportLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.CreateDocument("application/zip"),
+        ) { uri ->
+            uri?.let { viewModel.exportSaves(it) }
+        }
+
+    val importLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.OpenDocument(),
+        ) { uri ->
+            uri?.let { viewModel.importSaves(it) }
+        }
+
     LemuroidSettingsPage(modifier = modifier) {
         RomsSettings(
             state = state,
             onChangeFolder = { viewModel.changeLocalStorageFolder() },
             indexingInProgress = indexingInProgress,
             scanInProgress = scanInProgress,
+        )
+        SavesSettings(
+            onExportSaves = { exportLauncher.launch("n-lemuroid-saves.zip") },
+            onImportSaves = { importLauncher.launch(arrayOf("application/zip")) },
         )
         GeneralSettings()
         InputSettings(navController = navController)
@@ -102,6 +131,31 @@ private fun MiscSettings(
                 Text(text = stringResource(id = R.string.settings_description_advanced_settings))
             },
             onClick = { navController.navigateToRoute(MainRoute.SETTINGS_ADVANCED) },
+        )
+    }
+}
+
+@Composable
+private fun SavesSettings(
+    onExportSaves: () -> Unit,
+    onImportSaves: () -> Unit,
+) {
+    LemuroidCardSettingsGroup(
+        title = { Text(text = stringResource(id = R.string.settings_category_saves)) },
+    ) {
+        LemuroidSettingsMenuLink(
+            title = { Text(text = stringResource(id = R.string.settings_title_export_saves)) },
+            subtitle = {
+                Text(text = stringResource(id = R.string.settings_description_export_saves))
+            },
+            onClick = onExportSaves,
+        )
+        LemuroidSettingsMenuLink(
+            title = { Text(text = stringResource(id = R.string.settings_title_import_saves)) },
+            subtitle = {
+                Text(text = stringResource(id = R.string.settings_description_import_saves))
+            },
+            onClick = onImportSaves,
         )
     }
 }
