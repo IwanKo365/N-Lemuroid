@@ -49,6 +49,8 @@ It originated from a rib of [Retrograde](https://github.com/retrograde/retrograd
 - Customizable touch controls (size and position)
 - Cloud save sync
 - HD mode
+- Import / export your save files and states, create a zipped folder with your saves in one folder, states in the other like the app provides
+
 
 ### Languages:
 You can help translate Lemuroid in your native language by going here: https://crowdin.com/project/lemuroid
