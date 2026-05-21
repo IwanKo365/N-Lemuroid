@@ -30,6 +30,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import com.swordfish.lemuroid.R
+import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppOnCard
+import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppCardBackground
 import com.swordfish.lemuroid.app.mobile.shared.compose.ui.LemuroidGameCard
 import com.swordfish.lemuroid.app.utils.android.ComposableLifecycle
 import com.swordfish.lemuroid.common.displayDetailsSettingsScreen
@@ -211,8 +213,8 @@ private fun HomeNotification(
                 .padding(start = 16.dp, end = 16.dp),
         colors =
             CardDefaults.elevatedCardColors(
-                containerColor = Color(0xFF0D0D0D),
-                contentColor = Color(0xFFF0F0F0),
+                containerColor = AppCardBackground,
+                contentColor = AppOnCard,
             ),
     ) {
         Column(

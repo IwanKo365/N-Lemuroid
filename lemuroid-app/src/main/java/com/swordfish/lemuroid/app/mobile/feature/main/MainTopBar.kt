@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.em
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.swordfish.lemuroid.R
+import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppTopBarBackground
 import com.swordfish.lemuroid.app.shared.savesync.SaveSyncWork
 
 @Composable
@@ -82,7 +83,7 @@ fun LemuroidTopAppBar(
     onUpdateQueryString: (String) -> Unit,
 ) {
     val context = LocalContext.current
-    val topBarColor = Color(0xFF0D0D0D) // This is the color of the topbar
+    val topBarColor = AppTopBarBackground // This is the color of the topbar
 
     TopAppBar(
         title = {

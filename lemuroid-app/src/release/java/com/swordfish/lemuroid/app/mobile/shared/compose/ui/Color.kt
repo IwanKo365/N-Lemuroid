@@ -2,7 +2,17 @@ package com.swordfish.lemuroid.app.mobile.shared.compose.ui
 
 import androidx.compose.ui.graphics.Color
 
-val md_theme_light_primary = Color(0xFF006E28)
+// Centralized Background Colors
+val AppBackground = Color(0xFF000000)
+val AppOnBackground = Color(0xFFFFFFFF)
+val AppTopBarBackground = Color(0xFF000000)
+val AppNavigationBarBackground = Color(0xFF111111)
+val AppDockBackground = Color(0xFF222222) // Greyish color for the floating dock
+val AppCardBackground = Color(0xFF0D0D0D)
+val AppOnCard = Color(0xFFF0F0F0)
+val AppPrimary = Color(0xFFFF3B30)
+
+val md_theme_light_primary = AppPrimary
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFF6BFF84)
 val md_theme_light_onPrimaryContainer = Color(0xFF002107)
@@ -29,11 +39,11 @@ val md_theme_light_inverseOnSurface = Color(0xFFF0F1EB)
 val md_theme_light_inverseSurface = Color(0xFF2F312D)
 val md_theme_light_inversePrimary = Color(0xFF3EE366)
 val md_theme_light_shadow = Color(0xFF000000)
-val md_theme_light_surfaceTint = Color(0xFF006E28)
+val md_theme_light_surfaceTint = AppPrimary
 val md_theme_light_outlineVariant = Color(0xFFC2C9BD)
 val md_theme_light_scrim = Color(0xFF000000)
 
-val md_theme_dark_primary = Color(0xFF3EE366)
+val md_theme_dark_primary = AppPrimary
 val md_theme_dark_onPrimary = Color(0xFF003911)
 val md_theme_dark_primaryContainer = Color(0xFF00531C)
 val md_theme_dark_onPrimaryContainer = Color(0xFF6BFF84)
@@ -49,10 +59,10 @@ val md_theme_dark_error = Color(0xFFFFB4AB)
 val md_theme_dark_errorContainer = Color(0xFF93000A)
 val md_theme_dark_onError = Color(0xFF690005)
 val md_theme_dark_onErrorContainer = Color(0xFFFFDAD6)
-val md_theme_dark_background = Color(0xFF1A1C19)
-val md_theme_dark_onBackground = Color(0xFFE2E3DD)
-val md_theme_dark_surface = Color(0xFF1A1C19)
-val md_theme_dark_onSurface = Color(0xFFE2E3DD)
+val md_theme_dark_background = AppBackground
+val md_theme_dark_onBackground = AppOnBackground
+val md_theme_dark_surface = AppBackground
+val md_theme_dark_onSurface = AppOnBackground
 val md_theme_dark_surfaceVariant = Color(0xFF424940)
 val md_theme_dark_onSurfaceVariant = Color(0xFFC2C9BD)
 val md_theme_dark_outline = Color(0xFF8C9389)

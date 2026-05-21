@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppCardBackground
 import com.swordfish.lemuroid.app.shared.systems.MetaSystemInfo
 
 /**
@@ -24,8 +25,6 @@ import com.swordfish.lemuroid.app.shared.systems.MetaSystemInfo
  * - Background: Nothing red (#FF3B30)
  * - Icon tinted pure white (grayscale + whiten ColorFilter)
  */
-
-private val NothingBlack = Color(0xFF0D0D0D)
 
 // ColorMatrix that turns any color → white (for the dot matrix icons)
 private val whitenMatrix =
@@ -45,7 +44,7 @@ fun LemuroidSystemImage(system: MetaSystemInfo) {
             Modifier
                 .fillMaxWidth()
                 .aspectRatio(2.0f) // wider card: 2:1 ratio gives icons more horizontal space
-                .background(NothingBlack),
+                .background(AppCardBackground),
         contentAlignment = Alignment.Center,
     ) {
         Image(

@@ -7,7 +7,6 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.swordfish.lemuroid.R
 import com.swordfish.lemuroid.app.shared.systems.MetaSystemInfo
@@ -36,7 +35,7 @@ fun LemuroidSystemCard(
     ElevatedCard(
         modifier = modifier,
         onClick = onClick,
-        colors = CardDefaults.elevatedCardColors(containerColor = Color(0xFF111111)),
+        colors = CardDefaults.elevatedCardColors(containerColor = AppCardBackground),
     ) {
         Column(
             modifier =

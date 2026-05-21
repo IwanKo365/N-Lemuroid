@@ -8,10 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.swordfish.lemuroid.R
 import com.swordfish.lemuroid.app.utils.games.GameUtils
 import com.swordfish.lemuroid.lib.library.db.entity.Game
+
+val NdotFontFamily = FontFamily(Font(R.font.ndot57_regular))
 
 @Composable
 fun LemuroidGameTexts(
@@ -39,6 +44,7 @@ fun LemuroidTexts(
         Text(
             text = title,
             style = MaterialTheme.typography.titleSmall,
+            fontFamily = NdotFontFamily,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )

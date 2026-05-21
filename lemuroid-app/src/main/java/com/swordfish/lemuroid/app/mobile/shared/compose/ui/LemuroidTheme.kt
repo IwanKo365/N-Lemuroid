@@ -1,6 +1,7 @@
 package com.swordfish.lemuroid.app.mobile.shared.compose.ui
 
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -88,6 +89,8 @@ fun AppTheme(
     val colors = if (darkTheme) DarkColorScheme else LightColorScheme
 
     MaterialTheme(colorScheme = colors) {
-        content()
+        Surface(color = MaterialTheme.colorScheme.background) {
+            content()
+        }
     }
 }
