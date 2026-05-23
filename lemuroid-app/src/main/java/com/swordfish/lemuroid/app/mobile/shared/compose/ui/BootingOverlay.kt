@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
@@ -114,7 +114,7 @@ fun BootingOverlay(
                     }
                     .padding(16.dp)
                     .size(width = 160.dp, height = 210.dp)
-                    .background(AppCardBackground)
+                    .background(MaterialTheme.colorScheme.background)
             ) {
                 LemuroidGameCard(
                     game = game,
@@ -123,7 +123,7 @@ fun BootingOverlay(
                 )
             }
 
-            // The Console Dock / Slot (Lowered to Nav Bar position)
+            // The Console Dock / Slot (Theme-aware colors)
             Surface(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
@@ -131,11 +131,11 @@ fun BootingOverlay(
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp)
                     .height(with(density) { dockHeightPx.toDp() }),
-                color = AppDockBackground,
+                color = MaterialTheme.colorScheme.secondary,
                 shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
                 tonalElevation = 6.dp,
                 shadowElevation = 12.dp,
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color.White)
+                border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground)
             ) {}
         }
     }

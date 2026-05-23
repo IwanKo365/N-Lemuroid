@@ -15,4 +15,4 @@ val AppPrimary = Color(0xFFFF3B30)
 
 // Card Specific Colors
 val AppCardBorder = Color.White
-val AppCardPillBackground = Color.Transparent
+val AppCardPillBackground = AppPrimary // Set back to Nothing Red as requested

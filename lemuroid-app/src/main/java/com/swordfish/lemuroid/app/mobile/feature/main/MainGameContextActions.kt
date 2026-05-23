@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,9 +26,10 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material3.BottomSheetDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
@@ -38,12 +40,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.swordfish.lemuroid.R
+import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppPrimary
 import com.swordfish.lemuroid.app.mobile.shared.compose.ui.LemuroidGameTexts
 import com.swordfish.lemuroid.app.mobile.shared.compose.ui.LemuroidSmallGameImage
+import com.swordfish.lemuroid.app.mobile.shared.compose.ui.NdotFontFamily
 import com.swordfish.lemuroid.lib.library.db.entity.Game
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,6 +76,8 @@ fun MainGameContextActions(
         ModalBottomSheet(
             sheetState = modalSheetState,
             onDismissRequest = { selectedGameState.value = null },
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = Color.White
         ) {
             ContextActionContent(
                 selectedGame = selectedGame,
@@ -102,7 +109,7 @@ private fun ContextActionContent(
                 .windowInsetsPadding(WindowInsets.safeContent.only(WindowInsetsSides.Bottom)),
     ) {
         ContextActionHeader(game = selectedGame)
-        Divider()
+        HorizontalDivider(color = Color.White.copy(alpha = 0.1f))
         ContextActionEntry(
             label = stringResource(id = R.string.game_context_menu_resume),
             icon = Icons.Default.PlayArrow,
@@ -201,10 +208,13 @@ private fun ContextActionEntry(
             modifier = Modifier.padding(start = 16.dp),
             imageVector = icon,
             contentDescription = label,
+            tint = AppPrimary
         )
         Text(
             modifier = Modifier.padding(start = 16.dp),
             text = label,
+            fontFamily = NdotFontFamily,
+            color = Color.White
         )
     }
 }
