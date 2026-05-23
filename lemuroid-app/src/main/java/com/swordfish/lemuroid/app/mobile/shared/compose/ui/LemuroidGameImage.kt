@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -60,8 +61,8 @@ fun LemuroidGameImage(
 @Composable
 fun DotMatrixPlaceholder(game: Game) {
     val initials = remember(game) { computeInitials(game) }
-    val dotColor = Color(0x1AFFFFFF)
-    val dotBrush = remember {
+    val dotColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
+    val dotBrush = remember(dotColor) {
         val bitmap = ImageBitmap(8, 8)
         val canvas = Canvas(bitmap)
         val paint = Paint().apply { color = dotColor }
@@ -72,14 +73,14 @@ fun DotMatrixPlaceholder(game: Game) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(AppCardBackground)
+            .background(MaterialTheme.colorScheme.background)
             .background(dotBrush),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = initials,
             fontFamily = NdotFontFamily,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onBackground,
             fontSize = 48.sp,
             letterSpacing = 2.sp
         )

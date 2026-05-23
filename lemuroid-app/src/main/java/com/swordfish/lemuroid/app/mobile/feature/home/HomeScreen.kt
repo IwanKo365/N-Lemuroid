@@ -100,7 +100,7 @@ private fun HomeScreen(
         modifier =
             modifier
                 .verticalScroll(rememberScrollState())
-                .padding(top = 16.dp, bottom = 16.dp),
+                .padding(top = 16.dp, bottom = 120.dp), // Extra bottom padding for floating dock
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         AnimatedVisibility(state.showNoNotificationPermissionCard) {
@@ -173,6 +173,7 @@ private fun HomeRow(
         Text(
             text = title,
             style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp),
         )
         LazyRow(

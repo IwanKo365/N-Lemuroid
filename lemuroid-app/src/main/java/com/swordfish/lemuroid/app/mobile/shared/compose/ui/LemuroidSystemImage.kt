@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,10 +29,10 @@ import com.swordfish.lemuroid.app.shared.systems.MetaSystemInfo
 /**
  * Nothing OS — system card image.
  * - Dot matrix background (consistent with game placeholders)
- * - Icon tinted pure white
+ * - Icon tinted based on theme (white in dark, black in light)
  */
 
-// ColorMatrix that turns any color → white (for the dot matrix icons)
+// ColorMatrix that turns any color → white (for dark mode)
 private val whitenMatrix =
     ColorMatrix(
         floatArrayOf(
@@ -42,10 +43,22 @@ private val whitenMatrix =
         ),
     )
 
+// ColorMatrix that turns any color → black (for light mode)
+private val blackenMatrix =
+    ColorMatrix(
+        floatArrayOf(
+            0f, 0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 0f, 0f,
+            0f, 0f, 0f, 1f, 0f,
+        ),
+    )
+
 @Composable
 fun LemuroidSystemImage(system: MetaSystemInfo) {
-    val dotColor = Color(0x1AFFFFFF)
-    val dotBrush = remember {
+    val onBgColor = MaterialTheme.colorScheme.onBackground
+    val dotColor = onBgColor.copy(alpha = 0.1f)
+    val dotBrush = remember(dotColor) {
         val bitmap = ImageBitmap(8, 8)
         val canvas = Canvas(bitmap)
         val paint = Paint().apply { color = dotColor }
@@ -53,12 +66,15 @@ fun LemuroidSystemImage(system: MetaSystemInfo) {
         ShaderBrush(ImageShader(bitmap, TileMode.Repeated, TileMode.Repeated))
     }
 
+    // Heuristic to check if we are in Dark Mode based on onBackground color
+    val filterMatrix = if (onBgColor == Color.White) whitenMatrix else blackenMatrix
+
     Box(
         modifier =
             Modifier
                 .fillMaxWidth()
                 .aspectRatio(2.0f) 
-                .background(AppCardBackground)
+                .background(MaterialTheme.colorScheme.background)
                 .background(dotBrush),
         contentAlignment = Alignment.Center,
     ) {
@@ -69,7 +85,7 @@ fun LemuroidSystemImage(system: MetaSystemInfo) {
             painter = painterResource(id = system.metaSystem.imageResId),
             contentDescription = stringResource(id = system.metaSystem.titleResId),
             contentScale = ContentScale.Fit,
-            colorFilter = ColorFilter.colorMatrix(whitenMatrix),
+            colorFilter = ColorFilter.colorMatrix(filterMatrix),
         )
     }
 }

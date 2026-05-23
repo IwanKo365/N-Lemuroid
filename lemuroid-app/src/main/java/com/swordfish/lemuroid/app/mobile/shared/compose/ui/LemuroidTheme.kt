@@ -1,5 +1,6 @@
 package com.swordfish.lemuroid.app.mobile.shared.compose.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
@@ -8,10 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 /**
- * Nothing OS app theme — dynamic color (Material You) is intentionally disabled
- * so the Nothing red accent always shows, regardless of Samsung wallpaper color.
- *
- * This theme is forced to DARK mode to maintain the Nothing OS aesthetic.
+ * Nothing OS app theme — dynamic color (Material You) is intentionally disabled.
+ * Supports both Light and Dark modes with a monochrome aesthetic.
  */
 
 private val NothingDarkColorScheme =
@@ -20,28 +19,47 @@ private val NothingDarkColorScheme =
         onPrimary = Color.White,
         primaryContainer = AppPrimary.copy(alpha = 0.7f),
         onPrimaryContainer = Color.White,
-        secondary = AppDockBackground,
+        secondary = AppDockBackground, // Dark grey for dock
         onSecondary = Color.White,
         secondaryContainer = AppDockBackground.copy(alpha = 0.7f),
         onSecondaryContainer = Color.White,
-        background = AppBackground,
-        onBackground = AppOnBackground,
-        surface = AppBackground,
-        onSurface = AppOnBackground,
+        background = Color.Black,
+        onBackground = Color.White,
+        surface = Color.Black,
+        onSurface = Color.White,
         surfaceVariant = AppCardBackground,
-        onSurfaceVariant = AppOnBackground,
+        onSurfaceVariant = Color.White,
         outline = AppDockBackground,
-        error = Color(0xFFFF3B30), // Also Nothing Red for errors
+        error = Color(0xFFFF3B30),
+    )
+
+private val NothingLightColorScheme =
+    lightColorScheme(
+        primary = AppPrimary,
+        onPrimary = Color.Black,
+        primaryContainer = AppPrimary.copy(alpha = 0.7f),
+        onPrimaryContainer = Color.Black,
+        secondary = AppDockBackgroundLight, // Light grey for dock
+        onSecondary = Color.Black,
+        secondaryContainer = AppDockBackgroundLight.copy(alpha = 0.7f),
+        onSecondaryContainer = Color.Black,
+        background = Color.White,
+        onBackground = Color.Black,
+        surface = Color.White,
+        onSurface = Color.Black,
+        surfaceVariant = Color.White,
+        onSurfaceVariant = Color.Black,
+        outline = AppDockBackgroundLight,
+        error = Color(0xFFFF3B30),
     )
 
 @Composable
 fun AppTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
     useSurface: Boolean = true,
     content: @Composable () -> Unit,
 ) {
-    // We ignore the system theme and dynamic colors completely.
-    // N-Lemuroid is always in its custom Dark mode.
-    val colors = NothingDarkColorScheme
+    val colors = if (darkTheme) NothingDarkColorScheme else NothingLightColorScheme
 
     MaterialTheme(colorScheme = colors) {
         if (useSurface) {

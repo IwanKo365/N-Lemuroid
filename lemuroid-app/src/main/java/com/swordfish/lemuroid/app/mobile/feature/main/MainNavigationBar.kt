@@ -3,6 +3,7 @@ package com.swordfish.lemuroid.app.mobile.feature.main
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,14 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.swordfish.lemuroid.R
-import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppDockBackground
-import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppOnBackground
 import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppPrimary
 import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppTheme
 
 private val Muted = Color(0xFF666666)
-private val NavBg = AppDockBackground
-
 private val NdotFontFamily = FontFamily(Font(R.font.ndot57_regular))
 
 @Composable
@@ -74,51 +71,61 @@ private fun LemuroidNavigationBar(
     currentRoute: MainRoute?,
     onNavigationItemClick: (MainNavigationRoutes) -> Unit,
 ) {
-    Surface(
+    // Outer Box is transparent, allowing icons to scroll behind
+    Box(
         modifier = Modifier
-            .padding(start = 8.dp, end = 8.dp, bottom = 24.dp) // Closer to edges
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp), // Less rounded, more rectangular
-        color = NavBg.copy(alpha = 0.95f),
-        tonalElevation = 4.dp,
-        shadowElevation = 8.dp
+            .fillMaxWidth()
+            .padding(bottom = 24.dp),
+        contentAlignment = Alignment.Center
     ) {
-        NavigationBar(
-            modifier = Modifier.height(80.dp).padding(top = 8.dp),
-            containerColor = Color.Transparent,
-            tonalElevation = 0.dp
+        Surface(
+            modifier = Modifier
+                .padding(start = 8.dp, end = 8.dp) 
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            // Use the theme's secondary color for the dock
+            color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.95f),
+            tonalElevation = 4.dp,
+            shadowElevation = 8.dp
         ) {
-            MainNavigationRoutes.entries.forEach { destination ->
-                val isSelected = currentRoute?.root == destination.route
-                val iconDrawable = if (isSelected) destination.selectedIcon else destination.unselectedIcon
+            NavigationBar(
+                modifier = Modifier.height(80.dp).padding(top = 8.dp),
+                containerColor = Color.Transparent,
+                tonalElevation = 0.dp
+            ) {
+                MainNavigationRoutes.entries.forEach { destination ->
+                    val isSelected = currentRoute?.root == destination.route
+                    val iconDrawable = if (isSelected) destination.selectedIcon else destination.unselectedIcon
 
-                NavigationBarItem(
-                    icon = {
-                        Icon(
-                            imageVector = iconDrawable,
-                            contentDescription = stringResource(destination.titleId),
-                        )
-                    },
-                    label = {
-                        Text(
-                            text = stringResource(destination.titleId),
-                            fontFamily = NdotFontFamily
-                        )
-                    },
-                    selected = isSelected,
-                    alwaysShowLabel = true,
-                    colors =
-                        NavigationBarItemDefaults.colors(
-                            indicatorColor = AppPrimary,
-                            selectedIconColor = AppOnBackground,
-                            selectedTextColor = AppOnBackground,
-                            unselectedIconColor = Muted,
-                            unselectedTextColor = Muted,
-                        ),
-                    onClick = {
-                        onNavigationItemClick(destination)
-                    },
-                )
+                    NavigationBarItem(
+                        icon = {
+                            Icon(
+                                imageVector = iconDrawable,
+                                contentDescription = stringResource(destination.titleId),
+                            )
+                        },
+                        label = {
+                            Text(
+                                text = stringResource(destination.titleId),
+                                fontFamily = NdotFontFamily
+                            )
+                        },
+                        selected = isSelected,
+                        alwaysShowLabel = true,
+                        colors =
+                            NavigationBarItemDefaults.colors(
+                                indicatorColor = AppPrimary,
+                                // Adapt content color based on theme secondary color
+                                selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                                selectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                                unselectedIconColor = Muted,
+                                unselectedTextColor = Muted,
+                            ),
+                        onClick = {
+                            onNavigationItemClick(destination)
+                        },
+                    )
+                }
             }
         }
     }

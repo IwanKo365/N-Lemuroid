@@ -31,6 +31,8 @@ fun LemuroidSystemCard(
     onClick: () -> Unit,
 ) {
     val context = LocalContext.current
+    val borderColor = MaterialTheme.colorScheme.onBackground
+    val contentColor = MaterialTheme.colorScheme.onBackground
 
     val title =
         remember(system.metaSystem.titleResId) {
@@ -47,8 +49,8 @@ fun LemuroidSystemCard(
 
     Column(
         modifier = modifier
-            .border(1.dp, AppCardBorder)
-            .background(AppCardBackground)
+            .border(1.dp, borderColor)
+            .background(MaterialTheme.colorScheme.background)
             .clickable(onClick = onClick),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -57,21 +59,21 @@ fun LemuroidSystemCard(
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .background(AppCardPillBackground, RoundedCornerShape(100))
-                .border(1.dp, AppCardBorder, RoundedCornerShape(100))
+                .border(1.dp, borderColor, RoundedCornerShape(100))
                 .padding(horizontal = 12.dp, vertical = 2.dp)
         ) {
             Text(
                 text = title,
                 fontFamily = NdotFontFamily,
                 style = MaterialTheme.typography.labelSmall,
-                color = AppOnBackground,
+                color = contentColor,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
         }
         
-        HorizontalDivider(color = AppCardBorder, thickness = 1.dp)
+        HorizontalDivider(color = borderColor, thickness = 1.dp)
 
         // System Image in the middle
         Box(
@@ -81,7 +83,7 @@ fun LemuroidSystemCard(
             contentAlignment = Alignment.Center
         ) {
             Box(
-                modifier = Modifier.border(1.dp, AppCardBorder)
+                modifier = Modifier.border(1.dp, borderColor)
             ) {
                 LemuroidSystemImage(system)
             }
@@ -95,7 +97,7 @@ fun LemuroidSystemCard(
                 .padding(bottom = 8.dp, start = 4.dp, end = 4.dp),
             fontFamily = NdotFontFamily,
             style = MaterialTheme.typography.labelSmall,
-            color = AppOnBackground,
+            color = contentColor,
             textAlign = TextAlign.Center,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,

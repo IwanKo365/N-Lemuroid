@@ -33,11 +33,13 @@ fun LemuroidGameCard(
 ) {
     val context = LocalContext.current
     val systemName = context.getString(GameSystem.findById(game.systemId).shortTitleResId)
+    val borderColor = MaterialTheme.colorScheme.onBackground
+    val contentColor = MaterialTheme.colorScheme.onBackground
 
     Column(
         modifier = modifier
-            .border(1.dp, AppCardBorder)
-            .background(AppCardBackground)
+            .border(1.dp, borderColor)
+            .background(MaterialTheme.colorScheme.background)
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick,
@@ -48,20 +50,20 @@ fun LemuroidGameCard(
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .background(AppCardPillBackground, RoundedCornerShape(100))
-                .border(1.dp, AppCardBorder, RoundedCornerShape(100))
+                .border(1.dp, borderColor, RoundedCornerShape(100))
                 .padding(horizontal = 12.dp, vertical = 2.dp)
         ) {
             Text(
                 text = systemName,
                 fontFamily = NdotFontFamily,
                 style = MaterialTheme.typography.labelSmall,
-                color = AppOnBackground,
+                color = contentColor,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
         }
-        HorizontalDivider(color = AppCardBorder, thickness = 1.dp)
+        HorizontalDivider(color = borderColor, thickness = 1.dp)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -69,7 +71,7 @@ fun LemuroidGameCard(
             contentAlignment = Alignment.Center
         ) {
             Box(
-                modifier = Modifier.border(1.dp, AppCardBorder)
+                modifier = Modifier.border(1.dp, borderColor)
             ) {
                 LemuroidGameImage(game = game)
             }
@@ -81,7 +83,7 @@ fun LemuroidGameCard(
                 .padding(bottom = 8.dp, start = 4.dp, end = 4.dp),
             fontFamily = NdotFontFamily,
             style = MaterialTheme.typography.labelSmall,
-            color = AppOnBackground,
+            color = contentColor,
             textAlign = TextAlign.Center,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,

@@ -47,7 +47,6 @@ import androidx.compose.ui.unit.em
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.swordfish.lemuroid.R
-import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppTopBarBackground
 import com.swordfish.lemuroid.app.shared.savesync.SaveSyncWork
 
 @Composable
@@ -83,7 +82,7 @@ fun LemuroidTopAppBar(
     onUpdateQueryString: (String) -> Unit,
 ) {
     val context = LocalContext.current
-    val topBarColor = AppTopBarBackground // This is the color of the topbar
+    val topBarColor = MaterialTheme.colorScheme.background
 
     TopAppBar(
         title = {
@@ -100,6 +99,7 @@ fun LemuroidTopAppBar(
                             Font(R.font.playfairdisplayvariablefont_wght),
                         ),
                     letterSpacing = 0.05.em,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
         },
@@ -116,8 +116,9 @@ fun LemuroidTopAppBar(
             ) {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
-                        Icons.AutoMirrored.Filled.ArrowBack,
-                        stringResource(id = R.string.back),
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(id = R.string.back),
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }
@@ -149,8 +150,9 @@ fun LemuroidTopBarActions(
             onClick = { onHelpPressed() },
         ) {
             Icon(
-                Icons.Outlined.Info,
-                stringResource(R.string.mobile_settings_help),
+                imageVector = Icons.Outlined.Info,
+                contentDescription = stringResource(R.string.mobile_settings_help),
+                tint = MaterialTheme.colorScheme.onBackground
             )
         }
         if (saveSyncEnabled) {
@@ -159,8 +161,9 @@ fun LemuroidTopBarActions(
                 enabled = !operationsInProgress,
             ) {
                 Icon(
-                    Icons.Outlined.CloudSync,
-                    stringResource(R.string.save_sync),
+                    imageVector = Icons.Outlined.CloudSync,
+                    contentDescription = stringResource(R.string.save_sync),
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         }
@@ -169,8 +172,9 @@ fun LemuroidTopBarActions(
                 onClick = { navController.navigate(MainRoute.SETTINGS.route) },
             ) {
                 Icon(
-                    Icons.Outlined.Settings,
-                    stringResource(R.string.settings),
+                    imageVector = Icons.Outlined.Settings,
+                    contentDescription = stringResource(R.string.settings),
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         }
@@ -210,8 +214,14 @@ private fun LemuroidSearchView(
                 Modifier
                     .fillMaxSize()
                     .focusRequester(focusRequester),
-            textStyle = MaterialTheme.typography.bodyMedium,
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+            textStyle = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onBackground),
+            leadingIcon = { 
+                Icon(
+                    imageVector = Icons.Default.Search, 
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground
+                ) 
+            },
             onValueChange = { onUpdateQueryString(it) },
             singleLine = true,
             keyboardActions =
@@ -224,6 +234,8 @@ private fun LemuroidSearchView(
                     unfocusedContainerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
+                    focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onBackground
                 ),
         )
     }
