@@ -11,8 +11,8 @@ N-Lemuroid is a specialized fork of the Lemuroid project, redesigned with a Noth
 - **Refined Selection Indicators**: Sleek, focused highlights for a clean and intuitive user experience.
 - **Monochrome Cartridge Overlay**: Game cards feature a simplified, monochrome cartridge-inspired design with white borders and system-specific pills.
 - **Dot-Matrix Placeholders**: Loading states and missing covers feature a custom dot-matrix grid and Ndot initials.
-- **Interactive Boot Animation**: A tactile "cartridge insertion" animation that triggers reactively as the game engine loads.
-
+- **Interactive Boot Animation**: A tactile "cartridge insertion" animation that triggers reactively as the game engine loads
+- **Black and white themes**: It reads system information and uses a black or white theme
 It originated from a rib of [Retrograde](https://github.com/retrograde/retrograde-android), but graduated to a standalone project integrating [LibretroDroid](https://github.com/Swordfish90/LibretroDroid).
 
 ### Visuals
