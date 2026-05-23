@@ -14,4 +14,4 @@ val AppPrimary = Color(0xFFFF3B30)
 
 // Card Specific Colors
 val AppCardBorder = Color.White
-val AppCardPillBackground = AppDockBackground
+val AppCardPillBackground = Color.Transparent

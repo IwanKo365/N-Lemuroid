@@ -32,6 +32,9 @@ import coil.request.ImageRequest
 import com.swordfish.lemuroid.app.shared.covers.CoverUtils
 import com.swordfish.lemuroid.lib.library.db.entity.Game
 
+// Standard grayscale matrix — desaturates the image fully
+private val grayscaleMatrix = ColorMatrix().apply { setToSaturation(0f) }
+
 @Composable
 fun LemuroidGameImage(
     modifier: Modifier = Modifier,
@@ -48,7 +51,7 @@ fun LemuroidGameImage(
                 .fillMaxWidth()
                 .aspectRatio(1.0f),
         contentScale = ContentScale.Crop,
-        // Removed grayscale filter - game icons should be in color
+        colorFilter = ColorFilter.colorMatrix(grayscaleMatrix),
         loading = { DotMatrixPlaceholder(game) },
         error = { DotMatrixPlaceholder(game) },
     )
