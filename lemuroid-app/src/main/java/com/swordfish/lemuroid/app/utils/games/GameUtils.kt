@@ -20,7 +20,7 @@ class GameUtils {
             return "$systemName $developerName"
         }
 
-        private fun getSystemNameForGame(
+        fun getSystemNameForGame(
             context: Context,
             game: Game,
         ): String {
