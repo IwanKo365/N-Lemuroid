@@ -67,12 +67,12 @@ fun DotMatrixPlaceholder(
     backgroundColor: Color = MaterialTheme.colorScheme.background
 ) {
     val initials = remember(game) { computeInitials(game) }
-    val dotColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
+    val dotColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
     val dotBrush = remember(dotColor) {
         val bitmap = ImageBitmap(8, 8)
         val canvas = Canvas(bitmap)
         val paint = Paint().apply { color = dotColor }
-        canvas.drawCircle(Offset(4f, 4f), 1.5f, paint)
+        canvas.drawCircle(Offset(4f, 4f), 2.0f, paint)
         ShaderBrush(ImageShader(bitmap, TileMode.Repeated, TileMode.Repeated))
     }
 
