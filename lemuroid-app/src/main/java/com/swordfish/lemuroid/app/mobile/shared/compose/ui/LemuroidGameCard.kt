@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -60,6 +61,7 @@ fun LemuroidGameCard(
                 overflow = TextOverflow.Ellipsis,
             )
         }
+        HorizontalDivider(color = Color.White, thickness = 1.dp)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
