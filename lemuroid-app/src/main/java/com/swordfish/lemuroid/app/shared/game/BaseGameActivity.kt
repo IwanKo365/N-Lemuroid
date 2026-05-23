@@ -120,7 +120,7 @@ abstract class BaseGameActivity : ImmersiveActivity() {
         lifecycle.addObserver(baseGameScreenViewModel)
 
         setContent {
-            AppTheme {
+            AppTheme(useSurface = false) {
                 BaseGameScreen(viewModel = baseGameScreenViewModel) {
                     GameScreen(viewModel)
                 }

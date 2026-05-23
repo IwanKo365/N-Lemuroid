@@ -83,13 +83,18 @@ private val DarkColorScheme =
 @Composable
 fun AppTheme(
     darkTheme: Boolean = true,
+    useSurface: Boolean = true,
     content: @Composable () -> Unit,
 ) {
     // Dynamic color uitgeschakeld — Nothing rood altijd actief
     val colors = if (darkTheme) DarkColorScheme else LightColorScheme
 
     MaterialTheme(colorScheme = colors) {
-        Surface(color = MaterialTheme.colorScheme.background) {
+        if (useSurface) {
+            Surface(color = MaterialTheme.colorScheme.background) {
+                content()
+            }
+        } else {
             content()
         }
     }

@@ -46,7 +46,7 @@ import timber.log.Timber
 
 class BaseGameScreenViewModel(
     private val appContext: Context,
-    game: Game,
+    val game: Game,
     settingsManager: SettingsManager,
     inputDeviceManager: InputDeviceManager,
     controllerConfigsManager: ControllerConfigsManager,

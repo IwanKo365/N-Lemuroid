@@ -12,6 +12,9 @@ val AppCardBackground = Color(0xFF0D0D0D)
 val AppOnCard = Color(0xFFF0F0F0)
 val AppPrimary = Color(0xFFFF3B30)
 
+val AppCardBorder = Color.White
+val AppCardPillBackground = Color.Transparent
+
 val md_theme_light_primary = AppPrimary
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFF6BFF84)
