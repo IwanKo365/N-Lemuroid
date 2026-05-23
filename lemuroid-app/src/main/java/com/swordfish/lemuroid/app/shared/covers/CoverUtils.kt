@@ -70,7 +70,7 @@ object CoverUtils {
         return "https://fakeimg.pl/512x512/$color/fff/?font=bebas&text=$title"
     }
 
-    private fun computeTitle(game: Game): String {
+    fun computeTitle(game: Game): String {
         val sanitizedName = game.title.replace(Regex("\\(.*\\)"), "")
         return sanitizedName.asSequence()
             .filter { it.isDigit() or it.isUpperCase() or (it == '&') }
