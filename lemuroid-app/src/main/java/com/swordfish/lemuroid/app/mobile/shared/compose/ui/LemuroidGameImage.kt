@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
@@ -53,13 +54,18 @@ fun LemuroidGameImage(
                 .aspectRatio(1.0f),
         contentScale = ContentScale.Crop,
         colorFilter = ColorFilter.colorMatrix(grayscaleMatrix),
-        loading = { DotMatrixPlaceholder(game) },
-        error = { DotMatrixPlaceholder(game) },
+        loading = { DotMatrixPlaceholder(game, fontSize = 48.sp) },
+        error = { DotMatrixPlaceholder(game, fontSize = 48.sp) },
     )
 }
 
 @Composable
-fun DotMatrixPlaceholder(game: Game) {
+fun DotMatrixPlaceholder(
+    game: Game,
+    modifier: Modifier = Modifier,
+    fontSize: TextUnit = 48.sp,
+    backgroundColor: Color = MaterialTheme.colorScheme.background
+) {
     val initials = remember(game) { computeInitials(game) }
     val dotColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
     val dotBrush = remember(dotColor) {
@@ -71,9 +77,9 @@ fun DotMatrixPlaceholder(game: Game) {
     }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(backgroundColor)
             .background(dotBrush),
         contentAlignment = Alignment.Center
     ) {
@@ -81,7 +87,7 @@ fun DotMatrixPlaceholder(game: Game) {
             text = initials,
             fontFamily = NdotFontFamily,
             color = MaterialTheme.colorScheme.onBackground,
-            fontSize = 48.sp,
+            fontSize = fontSize,
             letterSpacing = 2.sp
         )
     }
