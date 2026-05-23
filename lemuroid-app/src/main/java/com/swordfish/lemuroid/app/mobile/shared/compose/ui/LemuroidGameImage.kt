@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
@@ -31,9 +32,6 @@ import coil.request.ImageRequest
 import com.swordfish.lemuroid.app.shared.covers.CoverUtils
 import com.swordfish.lemuroid.lib.library.db.entity.Game
 
-// Standard grayscale matrix — desaturates the image fully
-private val grayscaleMatrix = ColorMatrix().apply { setToSaturation(0f) }
-
 @Composable
 fun LemuroidGameImage(
     modifier: Modifier = Modifier,
@@ -50,14 +48,14 @@ fun LemuroidGameImage(
                 .fillMaxWidth()
                 .aspectRatio(1.0f),
         contentScale = ContentScale.Crop,
-        colorFilter = ColorFilter.colorMatrix(grayscaleMatrix),
+        // Removed grayscale filter - game icons should be in color
         loading = { DotMatrixPlaceholder(game) },
         error = { DotMatrixPlaceholder(game) },
     )
 }
 
 @Composable
-private fun DotMatrixPlaceholder(game: Game) {
+fun DotMatrixPlaceholder(game: Game) {
     val initials = remember(game) { computeInitials(game) }
     val dotColor = Color(0x1AFFFFFF)
     val dotBrush = remember {
