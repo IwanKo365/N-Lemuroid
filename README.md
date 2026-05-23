@@ -9,12 +9,16 @@ N-Lemuroid is a specialized fork of the Lemuroid project, redesigned with a Noth
 - **Ndot Font Integration**: Native support for Ndot57 typography across game titles, system names, and navigation.
 - **Floating Navigation Dock**: A custom, rounded-rectangular navigation bar positioned for easy access and modern aesthetics.
 - **Refined Selection Indicators**: Sleek, focused highlights for a clean and intuitive user experience.
+- **Monochrome Cartridge Overlay**: Game cards feature a simplified, monochrome cartridge-inspired design with white borders and system-specific pills.
+- **Dot-Matrix Placeholders**: Loading states and missing covers feature a custom dot-matrix grid and Ndot initials.
+- **Interactive Boot Animation**: A tactile "cartridge insertion" animation that triggers reactively as the game engine loads.
 
 It originated from a rib of [Retrograde](https://github.com/retrograde/retrograde-android), but graduated to a standalone project integrating [LibretroDroid](https://github.com/Swordfish90/LibretroDroid).
 
-|Screen 1|Screen 2|Screen 3|
-|---|---|---|
-|![Screen1](screenshots/screen1.png)|![Screen2](screenshots/screen2.png)|![Screen3](screenshots/screen3.png)|
+### Visuals
+|Screen 1|Screen 2|Screen 3|Boot Animation|
+|---|---|---|---|
+|![Screen1](screenshots/screen1.png)|![Screen2](screenshots/screen2.png)|![Screen3](screenshots/screen3.png)|[View Video](screenshots/screen1.mp4)|
 
 ### Supported Systems:
 - Atari 2600 (A26) ([stella](https://docs.libretro.com/library/stella/))
