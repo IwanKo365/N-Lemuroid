@@ -31,7 +31,7 @@ import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppPrimary
 import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppTheme
 
 private val Muted = Color(0xFF666666)
-private val NdotFontFamily = FontFamily(Font(R.font.ndot57_regular))
+private val CursiveFontFamily = FontFamily(Font(R.font.playfairdisplayvariablefont_wght))
 
 @Composable
 fun MainNavigationBar(
@@ -106,8 +106,8 @@ private fun LemuroidNavigationBar(
                         },
                         label = {
                             Text(
-                                text = stringResource(destination.titleId),
-                                fontFamily = NdotFontFamily
+                                text = stringResource(destination.titleId).uppercase(),
+                                fontFamily = CursiveFontFamily
                             )
                         },
                         selected = isSelected,
