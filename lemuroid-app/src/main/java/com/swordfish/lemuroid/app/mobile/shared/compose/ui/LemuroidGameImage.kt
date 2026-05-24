@@ -64,7 +64,8 @@ fun DotMatrixPlaceholder(
     game: Game,
     modifier: Modifier = Modifier,
     fontSize: TextUnit = 48.sp,
-    backgroundColor: Color = MaterialTheme.colorScheme.background
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    showText: Boolean = true
 ) {
     val initials = remember(game) { computeInitials(game) }
     val dotColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
@@ -83,13 +84,15 @@ fun DotMatrixPlaceholder(
             .background(dotBrush),
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = initials,
-            fontFamily = NdotFontFamily,
-            color = MaterialTheme.colorScheme.onBackground,
-            fontSize = fontSize,
-            letterSpacing = 2.sp
-        )
+        if (showText) {
+            Text(
+                text = initials,
+                fontFamily = NdotFontFamily,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = fontSize,
+                letterSpacing = 2.sp
+            )
+        }
     }
 }
 

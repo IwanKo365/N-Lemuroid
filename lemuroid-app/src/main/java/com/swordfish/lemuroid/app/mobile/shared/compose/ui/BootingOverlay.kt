@@ -9,9 +9,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -40,7 +38,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.swordfish.lemuroid.lib.library.db.entity.Game
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
@@ -163,40 +160,36 @@ fun BootingOverlay(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp),
+                        .padding(top = 40.dp), // Shifting everything down
                     contentAlignment = Alignment.TopCenter
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.Top,
-                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    // Wide "Game Boy" Screen, perfectly centered and cut off at the bottom
+                    Box(
+                        modifier = Modifier
+                            .width(260.dp) // Symmetrical and wide
+                            .height(100.dp) // Less tall while still reaching the bottom
+                            .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
+                            .background(Color(0xFF0F0F0F)) // Deep dark gray screen
+                            .border(2.dp, Color.DarkGray, RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
                     ) {
-                        // Indicator Light (Left of the screen)
-                        Box(
-                            modifier = Modifier
-                                .padding(top = 12.dp) // Align vertically with the center of the visible screen area
-                                .size(8.dp)
-                                .clip(CircleShape)
-                                .background(indicatorColor)
-                                .border(1.dp, Color.White.copy(alpha = 0.2f), CircleShape)
+                        DotMatrixPlaceholder(
+                            game = game,
+                            backgroundColor = Color.Transparent,
+                            showText = false, // No placeholder initials
+                            modifier = Modifier.fillMaxSize() // Dots now fill the entire screen area
                         )
-
-                        // Even wider "Game Boy" Screen, cut off at the bottom
-                        Box(
-                            modifier = Modifier
-                                .width(180.dp) // Wider than the cartridge (160dp)
-                                .height(with(density) { dockHeightPx.toDp() }) // Fill to the bottom
-                                .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
-                                .background(Color(0xFF0F0F0F)) // Deep dark gray screen
-                                .border(2.dp, Color.DarkGray, RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
-                        ) {
-                            DotMatrixPlaceholder(
-                                game = game,
-                                fontSize = 18.sp,
-                                backgroundColor = Color.Transparent,
-                                modifier = Modifier.padding(top = 12.dp).height(60.dp).fillMaxWidth()
-                            )
-                        }
                     }
+
+                    // Indicator Light (Positioned to the left of the centered screen)
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.TopCenter)
+                            .offset(x = (-150).dp, y = 20.dp) // Balanced spacing to the left of the screen
+                            .size(8.dp)
+                            .clip(CircleShape)
+                            .background(indicatorColor)
+                            .border(1.dp, Color.White.copy(alpha = 0.2f), CircleShape)
+                    )
                 }
             }
         }
