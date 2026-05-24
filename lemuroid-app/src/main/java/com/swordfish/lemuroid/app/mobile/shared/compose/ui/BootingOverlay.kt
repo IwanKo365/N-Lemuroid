@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -159,36 +160,43 @@ fun BootingOverlay(
                 border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground)
             ) {
                 // UI Elements on the Console Dock
-                Row(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 12.dp, start = 20.dp, end = 20.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                        .padding(top = 16.dp),
+                    contentAlignment = Alignment.TopCenter
                 ) {
-                    // Cut-off Dot Matrix Screen
-                    Box(
-                        modifier = Modifier
-                            .size(width = 80.dp, height = 40.dp)
-                            .clip(RoundedCornerShape(4.dp))
-                            .background(Color.Black)
-                            .border(1.dp, Color.DarkGray, RoundedCornerShape(4.dp))
+                    Row(
+                        verticalAlignment = Alignment.Top,
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        DotMatrixPlaceholder(
-                            game = game,
-                            fontSize = 12.sp,
-                            backgroundColor = Color.Black
+                        // Indicator Light (Left of the screen)
+                        Box(
+                            modifier = Modifier
+                                .padding(top = 12.dp) // Align vertically with the center of the visible screen area
+                                .size(8.dp)
+                                .clip(CircleShape)
+                                .background(indicatorColor)
+                                .border(1.dp, Color.White.copy(alpha = 0.2f), CircleShape)
                         )
-                    }
 
-                    // Indicator Light
-                    Box(
-                        modifier = Modifier
-                            .size(10.dp)
-                            .clip(CircleShape)
-                            .background(indicatorColor)
-                            .border(1.dp, Color.White.copy(alpha = 0.2f), CircleShape)
-                    )
+                        // Even wider "Game Boy" Screen, cut off at the bottom
+                        Box(
+                            modifier = Modifier
+                                .width(180.dp) // Wider than the cartridge (160dp)
+                                .height(with(density) { dockHeightPx.toDp() }) // Fill to the bottom
+                                .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
+                                .background(Color(0xFF0F0F0F)) // Deep dark gray screen
+                                .border(2.dp, Color.DarkGray, RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
+                        ) {
+                            DotMatrixPlaceholder(
+                                game = game,
+                                fontSize = 18.sp,
+                                backgroundColor = Color.Transparent,
+                                modifier = Modifier.padding(top = 12.dp).height(60.dp).fillMaxWidth()
+                            )
+                        }
+                    }
                 }
             }
         }
