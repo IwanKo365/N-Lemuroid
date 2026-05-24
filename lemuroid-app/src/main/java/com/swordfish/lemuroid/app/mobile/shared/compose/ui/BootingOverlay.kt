@@ -164,13 +164,16 @@ fun BootingOverlay(
                     contentAlignment = Alignment.TopCenter
                 ) {
                     // Wide "Game Boy" Screen, perfectly centered and cut off at the bottom
+                    val screenBg = if (MaterialTheme.colorScheme.background == Color.Black) Color(0xFF0F0F0F) else Color(0xFFE8E8E8)
+                    val screenBorder = if (MaterialTheme.colorScheme.background == Color.Black) Color.DarkGray else Color.LightGray
+                    
                     Box(
                         modifier = Modifier
                             .width(260.dp) // Symmetrical and wide
                             .height(100.dp) // Less tall while still reaching the bottom
                             .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
-                            .background(Color(0xFF0F0F0F)) // Deep dark gray screen
-                            .border(2.dp, Color.DarkGray, RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
+                            .background(screenBg) // Theme-aware screen background
+                            .border(2.dp, screenBorder, RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
                     ) {
                         DotMatrixPlaceholder(
                             game = game,
