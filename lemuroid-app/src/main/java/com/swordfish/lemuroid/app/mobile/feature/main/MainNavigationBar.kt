@@ -106,7 +106,7 @@ private fun LemuroidNavigationBar(
                         },
                         label = {
                             Text(
-                                text = stringResource(destination.titleId).uppercase(),
+                                text = stringResource(destination.titleId).lowercase(),
                                 fontFamily = CursiveFontFamily
                             )
                         },
