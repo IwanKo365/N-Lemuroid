@@ -1,5 +1,6 @@
 package com.swordfish.lemuroid.app.mobile.shared.compose.ui
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -7,13 +8,17 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -25,11 +30,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.swordfish.lemuroid.lib.library.db.entity.Game
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
@@ -42,6 +52,7 @@ fun BootingOverlay(
 ) {
     val configuration = LocalConfiguration.current
     val density = LocalDensity.current
+    val haptic = LocalHapticFeedback.current
     val screenHeightPx = with(density) {
         configuration.screenHeightDp.dp.toPx()
     }
@@ -79,6 +90,9 @@ fun BootingOverlay(
 
     LaunchedEffect(isReady) {
         if (isReady && !hasClickedIn) {
+            // Haptic feedback for the "clunk"
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            
             cartridgeYOffset.animateTo(
                 targetValue = dockTargetY,
                 animationSpec = tween(durationMillis = 150)
@@ -94,6 +108,13 @@ fun BootingOverlay(
             onAnimationFinished()
         }
     }
+
+    // Indicator light color animation
+    val indicatorColor by animateColorAsState(
+        targetValue = if (isReady) Color.Red else Color.DarkGray,
+        animationSpec = tween(300),
+        label = "indicator"
+    )
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -123,7 +144,7 @@ fun BootingOverlay(
                 )
             }
 
-            // The Console Dock / Slot (Theme-aware colors)
+            // The Console Dock / Slot
             Surface(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
@@ -136,7 +157,40 @@ fun BootingOverlay(
                 tonalElevation = 6.dp,
                 shadowElevation = 12.dp,
                 border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground)
-            ) {}
+            ) {
+                // UI Elements on the Console Dock
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 12.dp, start = 20.dp, end = 20.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // Cut-off Dot Matrix Screen
+                    Box(
+                        modifier = Modifier
+                            .size(width = 80.dp, height = 40.dp)
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(Color.Black)
+                            .border(1.dp, Color.DarkGray, RoundedCornerShape(4.dp))
+                    ) {
+                        DotMatrixPlaceholder(
+                            game = game,
+                            fontSize = 12.sp,
+                            backgroundColor = Color.Black
+                        )
+                    }
+
+                    // Indicator Light
+                    Box(
+                        modifier = Modifier
+                            .size(10.dp)
+                            .clip(CircleShape)
+                            .background(indicatorColor)
+                            .border(1.dp, Color.White.copy(alpha = 0.2f), CircleShape)
+                    )
+                }
+            }
         }
     }
 }
