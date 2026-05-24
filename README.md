@@ -16,14 +16,14 @@ N-Lemuroid is a specialized fork of the Lemuroid project, redesigned with a Noth
 It originated from a rib of [Retrograde](https://github.com/retrograde/retrograde-android), but graduated to a standalone project integrating [LibretroDroid](https://github.com/Swordfish90/LibretroDroid).
 
 ### Visuals
-|Screen 1|Screen 2|Screen 3|Boot Animation|
+|Screen 1|Screen 2|Screen 3|Screen 4|
 |---|---|---|---|
-|![Screen1](screenshots/screen1.jpg)|![Screen2](screenshots/screen2.jpg)|![Screen3](screenshots/screen3.jpg)|[View Video](screenshots/screen1.mp4)|
+|![Screen1](screenshots/screen1.jpg)|![Screen2](screenshots/screen2.jpg)|![Screen3](screenshots/screen3.jpg)|![Screen4](screenshots/screen4.jpg)|
 
 #### White Version
-|Screen 1|Screen 2|Screen 3|Boot Animation|
+|Screen 1|Screen 2|Screen 3|Screen 4|
 |---|---|---|---|
-|![Screen1_W](screenshots/screen1_W.jpg)|![Screen2_W](screenshots/screen2_W.jpg)|![Screen3_W](screenshots/screen3_W.jpg)|[View Video](screenshots/screen1_W.mp4)|
+|![Screen1_W](screenshots/screen1_W.jpg)|![Screen2_W](screenshots/screen2_W.jpg)|![Screen3_W](screenshots/screen3_W.jpg)|![Screen4_W](screenshots/screen4_W.jpg)|
 
 ### Supported Systems:
 - Atari 2600 (A26) ([stella](https://docs.libretro.com/library/stella/))
