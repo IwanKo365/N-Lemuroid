@@ -16,9 +16,14 @@ N-Lemuroid is a specialized fork of the Lemuroid project, redesigned with a Noth
 It originated from a rib of [Retrograde](https://github.com/retrograde/retrograde-android), but graduated to a standalone project integrating [LibretroDroid](https://github.com/Swordfish90/LibretroDroid).
 
 ### Visuals
-|Screen 1|Screen 2|Screen 3|Screen 4|Boot Animation|
-|---|---|---|---|---|
-|![Screen1](screenshots/screen1.jpg)|![Screen2](screenshots/screen2.jpg)|![Screen3](screenshots/screen3.jpg)|![Screen4](screenshots/screen4.jpg)|[View Video](screenshots/screen1.mp4)|
+|Screen 1|Screen 2|Screen 3|Boot Animation|
+|---|---|---|---|
+|![Screen1](screenshots/screen1.jpg)|![Screen2](screenshots/screen2.jpg)|![Screen3](screenshots/screen3.jpg)|[View Video](screenshots/screen1.mp4)|
+
+#### White Version
+|Screen 4|
+|---|
+|![Screen4](screenshots/screen4.jpg)|
 
 ### Supported Systems:
 - Atari 2600 (A26) ([stella](https://docs.libretro.com/library/stella/))
