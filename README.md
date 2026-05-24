@@ -21,9 +21,9 @@ It originated from a rib of [Retrograde](https://github.com/retrograde/retrograd
 |![Screen1](screenshots/screen1.jpg)|![Screen2](screenshots/screen2.jpg)|![Screen3](screenshots/screen3.jpg)|[View Video](screenshots/screen1.mp4)|
 
 #### White Version
-|Screen 4|
-|---|
-|![Screen4](screenshots/screen4.jpg)|
+|Screen 1|Screen 2|Screen 3|Boot Animation|
+|---|---|---|---|
+|![Screen1_W](screenshots/screen1_W.jpg)|![Screen2_W](screenshots/screen2_W.jpg)|![Screen3_W](screenshots/screen3_W.jpg)|[View Video](screenshots/screen1_W.mp4)|
 
 ### Supported Systems:
 - Atari 2600 (A26) ([stella](https://docs.libretro.com/library/stella/))
