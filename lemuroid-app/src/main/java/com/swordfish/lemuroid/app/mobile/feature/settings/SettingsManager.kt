@@ -56,6 +56,10 @@ class SettingsManager(private val context: Context, sharedPreferences: Lazy<Shar
 
     suspend fun allowDirectGameLoad() = booleanPreference(R.string.pref_key_allow_direct_game_load, true)
 
+    suspend fun monochromeIcons() = booleanPreference(R.string.pref_key_monochrome_icons, true)
+
+    suspend fun darkTheme() = booleanPreference(R.string.pref_key_theme_dark, true)
+
     private suspend fun booleanPreference(
         keyId: Int,
         default: Boolean,

@@ -45,12 +45,14 @@ fun LemuroidTexts(
             text = title,
             style = MaterialTheme.typography.titleSmall,
             fontFamily = NdotFontFamily,
+            color = MaterialTheme.colorScheme.onBackground,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
         Text(
             text = subtitle,
             style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onBackground,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )

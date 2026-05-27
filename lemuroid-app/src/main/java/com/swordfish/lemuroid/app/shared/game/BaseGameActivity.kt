@@ -10,12 +10,19 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import com.swordfish.lemuroid.R
 import com.swordfish.lemuroid.app.mobile.feature.game.GameActivity
 import com.swordfish.lemuroid.app.mobile.feature.game.GameService
 import com.swordfish.lemuroid.app.mobile.feature.settings.SettingsManager
 import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppTheme
+import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppPrimary
+import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppYellow
+import androidx.compose.foundation.isSystemInDarkTheme
+import com.swordfish.lemuroid.app.utils.settings.rememberSafePreferenceBooleanSettingState
+import com.swordfish.lemuroid.lib.preferences.SharedPreferencesHelper
 import com.swordfish.lemuroid.app.shared.GameMenuContract
 import com.swordfish.lemuroid.app.shared.ImmersiveActivity
 import com.swordfish.lemuroid.app.shared.coreoptions.CoreOption
@@ -120,7 +127,16 @@ abstract class BaseGameActivity : ImmersiveActivity() {
         lifecycle.addObserver(baseGameScreenViewModel)
 
         setContent {
-            AppTheme(useSurface = false) {
+            val prefs = remember { SharedPreferencesHelper.getSharedPreferences(this) }
+            val followSystem = rememberSafePreferenceBooleanSettingState(getString(R.string.pref_key_theme_follow_system), true, prefs).value
+            val darkThemePref = rememberSafePreferenceBooleanSettingState(getString(R.string.pref_key_theme_dark), true, prefs).value
+            val isSystemDark = isSystemInDarkTheme()
+            val darkTheme = if (followSystem) isSystemDark else darkThemePref
+
+            val useYellowAccent = rememberSafePreferenceBooleanSettingState(getString(R.string.pref_key_accent_yellow), false, prefs).value
+            val primaryColor = if (useYellowAccent) AppYellow else AppPrimary
+
+            AppTheme(darkTheme = darkTheme, useSurface = false, primaryColor = primaryColor) {
                 BaseGameScreen(viewModel = baseGameScreenViewModel) {
                     GameScreen(viewModel)
                 }

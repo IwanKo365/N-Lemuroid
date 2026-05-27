@@ -27,7 +27,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.swordfish.lemuroid.R
-import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppPrimary
 import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppTheme
 
 private val Muted = Color(0xFF666666)
@@ -114,7 +113,7 @@ private fun LemuroidNavigationBar(
                         alwaysShowLabel = true,
                         colors =
                             NavigationBarItemDefaults.colors(
-                                indicatorColor = AppPrimary,
+                                indicatorColor = MaterialTheme.colorScheme.primary,
                                 // Adapt content color based on theme secondary color
                                 selectedIconColor = MaterialTheme.colorScheme.onSecondary,
                                 selectedTextColor = MaterialTheme.colorScheme.onSecondary,

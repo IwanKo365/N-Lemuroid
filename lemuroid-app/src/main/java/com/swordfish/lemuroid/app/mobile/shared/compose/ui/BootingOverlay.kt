@@ -108,8 +108,9 @@ fun BootingOverlay(
     }
 
     // Indicator light color animation
+    val readyColor = MaterialTheme.colorScheme.primary
     val indicatorColor by animateColorAsState(
-        targetValue = if (isReady) Color.Red else Color.DarkGray,
+        targetValue = if (isReady) readyColor else Color.DarkGray,
         animationSpec = tween(300),
         label = "indicator"
     )

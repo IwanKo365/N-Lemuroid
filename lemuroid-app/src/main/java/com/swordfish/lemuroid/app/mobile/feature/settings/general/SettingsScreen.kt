@@ -82,6 +82,7 @@ fun SettingsScreen(
             onExportSaves = { exportLauncher.launch("n-lemuroid-saves.zip") },
             onImportSaves = { importLauncher.launch(arrayOf("application/zip")) },
         )
+        CustomisationSettings()
         GeneralSettings()
         InputSettings(navController = navController)
         MiscSettings(
@@ -183,6 +184,37 @@ private fun InputSettings(navController: NavController) {
                 Text(text = stringResource(id = R.string.settings_description_gamepad_settings))
             },
             onClick = { navController.navigateToRoute(MainRoute.SETTINGS_INPUT_DEVICES) },
+        )
+    }
+}
+
+@Composable
+private fun CustomisationSettings() {
+    LemuroidCardSettingsGroup(
+        title = { Text(text = stringResource(id = R.string.settings_category_customisation)) },
+    ) {
+        val followSystem = booleanPreferenceState(R.string.pref_key_theme_follow_system, true)
+        LemuroidSettingsSwitch(
+            state = followSystem,
+            title = { Text(text = stringResource(id = R.string.settings_title_theme_follow_system)) },
+            subtitle = { Text(text = stringResource(id = R.string.settings_description_theme_follow_system)) },
+        )
+        if (!followSystem.value) {
+            LemuroidSettingsSwitch(
+                state = booleanPreferenceState(R.string.pref_key_theme_dark, true),
+                title = { Text(text = stringResource(id = R.string.settings_title_theme_dark)) },
+                subtitle = { Text(text = stringResource(id = R.string.settings_description_theme_dark)) },
+            )
+        }
+        LemuroidSettingsSwitch(
+            state = booleanPreferenceState(R.string.pref_key_monochrome_icons, true),
+            title = { Text(text = stringResource(id = R.string.settings_title_monochrome_icons)) },
+            subtitle = { Text(text = stringResource(id = R.string.settings_description_monochrome_icons)) },
+        )
+        LemuroidSettingsSwitch(
+            state = booleanPreferenceState(R.string.pref_key_accent_yellow, false),
+            title = { Text(text = stringResource(id = R.string.settings_title_accent_yellow)) },
+            subtitle = { Text(text = stringResource(id = R.string.settings_description_accent_yellow)) },
         )
     }
 }

@@ -31,7 +31,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
+import com.swordfish.lemuroid.R
 import com.swordfish.lemuroid.app.shared.covers.CoverUtils
+import com.swordfish.lemuroid.app.utils.android.settings.booleanPreferenceState
 import com.swordfish.lemuroid.lib.library.db.entity.Game
 
 // Standard grayscale matrix — desaturates the image fully
@@ -42,6 +44,8 @@ fun LemuroidGameImage(
     modifier: Modifier = Modifier,
     game: Game,
 ) {
+    val monochromeIcons = booleanPreferenceState(R.string.pref_key_monochrome_icons, true).value
+
     SubcomposeAsyncImage(
         model =
             ImageRequest.Builder(LocalContext.current)
@@ -53,7 +57,7 @@ fun LemuroidGameImage(
                 .fillMaxWidth()
                 .aspectRatio(1.0f),
         contentScale = ContentScale.Crop,
-        colorFilter = ColorFilter.colorMatrix(grayscaleMatrix),
+        colorFilter = if (monochromeIcons) ColorFilter.colorMatrix(grayscaleMatrix) else null,
         loading = { DotMatrixPlaceholder(game, fontSize = 48.sp) },
         error = { DotMatrixPlaceholder(game, fontSize = 48.sp) },
     )

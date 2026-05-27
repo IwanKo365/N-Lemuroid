@@ -13,11 +13,11 @@ import androidx.compose.ui.graphics.Color
  * Supports both Light and Dark modes with a monochrome aesthetic.
  */
 
-private val NothingDarkColorScheme =
+private fun getNothingDarkColorScheme(primaryColor: Color) =
     darkColorScheme(
-        primary = AppPrimary,
+        primary = primaryColor,
         onPrimary = Color.White,
-        primaryContainer = AppPrimary.copy(alpha = 0.7f),
+        primaryContainer = primaryColor.copy(alpha = 0.7f),
         onPrimaryContainer = Color.White,
         secondary = AppDockBackground, // Dark grey for dock
         onSecondary = Color.White,
@@ -33,11 +33,11 @@ private val NothingDarkColorScheme =
         error = Color(0xFFFF3B30),
     )
 
-private val NothingLightColorScheme =
+private fun getNothingLightColorScheme(primaryColor: Color) =
     lightColorScheme(
-        primary = AppPrimary,
+        primary = primaryColor,
         onPrimary = Color.Black,
-        primaryContainer = AppPrimary.copy(alpha = 0.7f),
+        primaryContainer = primaryColor.copy(alpha = 0.7f),
         onPrimaryContainer = Color.Black,
         secondary = AppDockBackgroundLight, // Light grey for dock
         onSecondary = Color.Black,
@@ -57,9 +57,10 @@ private val NothingLightColorScheme =
 fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     useSurface: Boolean = true,
+    primaryColor: Color = AppPrimary,
     content: @Composable () -> Unit,
 ) {
-    val colors = if (darkTheme) NothingDarkColorScheme else NothingLightColorScheme
+    val colors = if (darkTheme) getNothingDarkColorScheme(primaryColor) else getNothingLightColorScheme(primaryColor)
 
     MaterialTheme(colorScheme = colors) {
         if (useSurface) {

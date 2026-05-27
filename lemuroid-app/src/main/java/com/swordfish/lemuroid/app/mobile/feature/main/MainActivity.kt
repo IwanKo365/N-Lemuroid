@@ -54,6 +54,9 @@ import com.swordfish.lemuroid.app.mobile.feature.shortcuts.ShortcutsGenerator
 import com.swordfish.lemuroid.app.mobile.feature.systems.MetaSystemsScreen
 import com.swordfish.lemuroid.app.mobile.feature.systems.MetaSystemsViewModel
 import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppTheme
+import com.swordfish.lemuroid.app.mobile.shared.compose.ui.NdotFontFamily
+import androidx.compose.foundation.isSystemInDarkTheme
+import com.swordfish.lemuroid.app.utils.android.settings.booleanPreferenceState
 import com.swordfish.lemuroid.app.shared.GameInteractor
 import com.swordfish.lemuroid.app.shared.game.BaseGameActivity
 import com.swordfish.lemuroid.app.shared.game.GameLauncher
@@ -136,7 +139,15 @@ class MainActivity : RetrogradeComponentActivity(), BusyActivity {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun MainScreen(navController: NavHostController) {
-        AppTheme {
+        val followSystem = booleanPreferenceState(R.string.pref_key_theme_follow_system, true).value
+        val darkThemePref = booleanPreferenceState(R.string.pref_key_theme_dark, true).value
+        val isSystemDark = isSystemInDarkTheme()
+        val darkTheme = if (followSystem) isSystemDark else darkThemePref
+
+        val useYellowAccent = booleanPreferenceState(R.string.pref_key_accent_yellow, false).value
+        val primaryColor = if (useYellowAccent) com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppYellow else com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppPrimary
+
+        AppTheme(darkTheme = darkTheme, primaryColor = primaryColor) {
             val navBackStackEntry = navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry.value?.destination
             val currentRoute =

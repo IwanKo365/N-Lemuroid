@@ -12,6 +12,7 @@ val AppDockBackgroundLight = Color(0xFFE0E0E0) // Light greyish color for the fl
 val AppCardBackground = AppBackground
 val AppOnCard = Color(0xFFF0F0F0)
 val AppPrimary = Color(0xFFFF3B30)
+val AppYellow = Color(0xFFFFC700)
 
 // Card Specific Colors
 val AppCardBorder = Color.White

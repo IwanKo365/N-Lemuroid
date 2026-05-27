@@ -2,6 +2,7 @@ package com.swordfish.lemuroid.app.utils.settings
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,13 +18,27 @@ fun rememberSafePreferenceIntSettingState(
     defaultValue: Int,
     preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocalContext.current),
 ): SafeIntPreferenceSettingValueState {
-    return remember {
+    val state = remember {
         SafeIntPreferenceSettingValueState(
             preferences = preferences,
             key = key,
             defaultValue = defaultValue,
         )
     }
+
+    DisposableEffect(key, preferences) {
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, changedKey ->
+            if (key == changedKey) {
+                state.updateValue(prefs.safeGetInt(changedKey, defaultValue))
+            }
+        }
+        preferences.registerOnSharedPreferenceChangeListener(listener)
+        onDispose {
+            preferences.unregisterOnSharedPreferenceChangeListener(listener)
+        }
+    }
+
+    return state
 }
 
 class SafeIntPreferenceSettingValueState(
@@ -35,10 +50,16 @@ class SafeIntPreferenceSettingValueState(
 
     override var value: Int
         set(value) {
-            _value = value
-            preferences.edit { putInt(key, value) }
+            if (_value != value) {
+                _value = value
+                preferences.edit { putInt(key, value) }
+            }
         }
         get() = _value
+
+    fun updateValue(newValue: Int) {
+        _value = newValue
+    }
 
     override fun reset() {
         value = defaultValue

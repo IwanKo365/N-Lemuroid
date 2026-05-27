@@ -15,11 +15,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.swordfish.lemuroid.R
+import com.swordfish.lemuroid.app.utils.android.settings.booleanPreferenceState
 import com.swordfish.lemuroid.lib.library.GameSystem
 import com.swordfish.lemuroid.lib.library.db.entity.Game
 
@@ -35,6 +38,11 @@ fun LemuroidGameCard(
     val systemName = context.getString(GameSystem.findById(game.systemId).shortTitleResId)
     val borderColor = MaterialTheme.colorScheme.onBackground
     val contentColor = MaterialTheme.colorScheme.onBackground
+    val primaryColor = MaterialTheme.colorScheme.primary
+    
+    val isMonochrome = booleanPreferenceState(R.string.pref_key_monochrome_icons, true).value
+    val pillBackground = if (isMonochrome) Color.Transparent else primaryColor
+    val pillBorderColor = if (isMonochrome) borderColor else primaryColor
 
     Column(
         modifier = modifier
@@ -49,15 +57,15 @@ fun LemuroidGameCard(
         Box(
             modifier = Modifier
                 .padding(vertical = 8.dp)
-                .background(AppCardPillBackground, RoundedCornerShape(100))
-                .border(1.dp, borderColor, RoundedCornerShape(100))
+                .background(pillBackground, RoundedCornerShape(100))
+                .border(1.dp, pillBorderColor, RoundedCornerShape(100))
                 .padding(horizontal = 12.dp, vertical = 2.dp)
         ) {
             Text(
                 text = systemName,
                 fontFamily = NdotFontFamily,
                 style = MaterialTheme.typography.labelSmall,
-                color = contentColor,
+                color = if (isMonochrome) contentColor else MaterialTheme.colorScheme.onPrimary,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,

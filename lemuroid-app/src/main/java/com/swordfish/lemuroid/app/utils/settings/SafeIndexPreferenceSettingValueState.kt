@@ -2,6 +2,7 @@ package com.swordfish.lemuroid.app.utils.settings
 
 import android.content.SharedPreferences
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,9 +19,23 @@ fun rememberSafePreferenceIndexSettingState(
     defaultValue: String,
     preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(LocalContext.current),
 ): SafeIndexPreferenceSettingValueState {
-    return remember {
+    val state = remember {
         SafeIndexPreferenceSettingValueState(preferences, key, values, defaultValue)
     }
+
+    DisposableEffect(key, preferences) {
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, changedKey ->
+            if (key == changedKey) {
+                state.updateValue(prefs.safeGetString(changedKey, defaultValue) ?: defaultValue)
+            }
+        }
+        preferences.registerOnSharedPreferenceChangeListener(listener)
+        onDispose {
+            preferences.unregisterOnSharedPreferenceChangeListener(listener)
+        }
+    }
+
+    return state
 }
 
 class SafeIndexPreferenceSettingValueState(
@@ -29,14 +44,21 @@ class SafeIndexPreferenceSettingValueState(
     private val values: List<String>,
     private val defaultValue: String,
 ) : SettingValueState<Int> {
-    private var _value by mutableStateOf(preferences.safeGetString(key, defaultValue))
+    private var _value by mutableStateOf(preferences.safeGetString(key, defaultValue) ?: defaultValue)
 
     override var value: Int
         set(index) {
-            _value = values[index]
-            preferences.edit { putString(key, _value) }
+            val newValue = values[index]
+            if (_value != newValue) {
+                _value = newValue
+                preferences.edit { putString(key, _value) }
+            }
         }
         get() = values.indexOf(_value)
+
+    fun updateValue(newValue: String) {
+        _value = newValue
+    }
 
     override fun reset() {
         value = values.indexOf(defaultValue)

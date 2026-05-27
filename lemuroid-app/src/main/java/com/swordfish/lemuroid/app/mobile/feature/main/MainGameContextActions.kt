@@ -45,7 +45,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.swordfish.lemuroid.R
-import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppPrimary
 import com.swordfish.lemuroid.app.mobile.shared.compose.ui.LemuroidGameTexts
 import com.swordfish.lemuroid.app.mobile.shared.compose.ui.LemuroidSmallGameImage
 import com.swordfish.lemuroid.app.mobile.shared.compose.ui.NdotFontFamily
@@ -208,7 +207,7 @@ private fun ContextActionEntry(
             modifier = Modifier.padding(start = 16.dp),
             imageVector = icon,
             contentDescription = label,
-            tint = AppPrimary
+            tint = MaterialTheme.colorScheme.primary // Use theme primary (Red or Yellow)
         )
         Text(
             modifier = Modifier.padding(start = 16.dp),

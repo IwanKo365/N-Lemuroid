@@ -27,6 +27,7 @@
     <string name="settings_category_input">Input</string>
     <string name="settings_category_saves">Saves</string>
     <string name="settings_category_misc">Miscellaneous</string>
+    <string name="settings_category_customisation">Customisation</string>
 
     <string name="settings_title_export_saves">Export Saves</string>
     <string name="settings_description_export_saves">Backup your saves and states to a zip file</string>
@@ -50,6 +51,22 @@
 
     <string name="settings_title_immersive_mode">Immersive mode</string>
     <string name="settings_description_immersive_mode">Dynamically colors the background based on game visuals</string>
+
+    <string name="settings_title_monochrome_icons">Monochrome icons</string>
+    <string name="settings_description_monochrome_icons">Display game icons in grayscale</string>
+    <string name="pref_key_monochrome_icons" translatable="false">pref_key_monochrome_icons</string>
+
+    <string name="settings_title_theme_dark">Dark theme</string>
+    <string name="settings_description_theme_dark">Use the classic high-contrast dark mode</string>
+    <string name="pref_key_theme_dark" translatable="false">pref_key_theme_dark</string>
+
+    <string name="settings_title_theme_follow_system">Follow system theme</string>
+    <string name="settings_description_theme_follow_system">Match the app appearance to your phone settings</string>
+    <string name="pref_key_theme_follow_system" translatable="false">pref_key_theme_follow_system</string>
+
+    <string name="settings_title_accent_yellow">Yellow accent</string>
+    <string name="settings_description_accent_yellow">Switch from Nothing Red to Nothing Yellow</string>
+    <string name="pref_key_accent_yellow" translatable="false">pref_key_accent_yellow</string>
 
     <string name="settings_title_gamepad_settings">External devices</string>
     <string name="settings_description_gamepad_settings">Configure external gamepads and keyboards</string>
