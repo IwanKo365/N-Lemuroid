@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
@@ -35,9 +34,20 @@ import com.swordfish.lemuroid.R
 import com.swordfish.lemuroid.app.shared.covers.CoverUtils
 import com.swordfish.lemuroid.app.utils.android.settings.booleanPreferenceState
 import com.swordfish.lemuroid.lib.library.db.entity.Game
+import kotlin.math.abs
 
 // Standard grayscale matrix — desaturates the image fully
 private val grayscaleMatrix = ColorMatrix().apply { setToSaturation(0f) }
+
+private val PlaceholderColors = listOf(
+    Color(0xFFFF3B30), // Nothing Red
+    Color(0xFFFFC700), // Nothing Yellow
+    Color(0xFF007AFF), // Blue
+    Color(0xFF34C759), // Green
+    Color(0xFF5856D6), // Indigo
+    Color(0xFFAF52DE), // Purple
+    Color(0xFFFF9500)  // Orange
+)
 
 @Composable
 fun LemuroidGameImage(
@@ -71,8 +81,22 @@ fun DotMatrixPlaceholder(
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     showText: Boolean = true
 ) {
+    val isMonochrome = booleanPreferenceState(R.string.pref_key_monochrome_icons, true).value
+    
+    val bgColor = if (isMonochrome) {
+        backgroundColor
+    } else {
+        val colorIndex = abs(game.id) % PlaceholderColors.size
+        PlaceholderColors[colorIndex]
+    }
+
     val initials = remember(game) { computeInitials(game) }
-    val dotColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
+    val dotColor = if (isMonochrome) {
+        MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
+    } else {
+        Color.White.copy(alpha = 0.15f)
+    }
+    
     val dotBrush = remember(dotColor) {
         val bitmap = ImageBitmap(8, 8)
         val canvas = Canvas(bitmap)
@@ -84,7 +108,7 @@ fun DotMatrixPlaceholder(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(backgroundColor)
+            .background(bgColor)
             .background(dotBrush),
         contentAlignment = Alignment.Center
     ) {
@@ -92,7 +116,7 @@ fun DotMatrixPlaceholder(
             Text(
                 text = initials,
                 fontFamily = NdotFontFamily,
-                color = MaterialTheme.colorScheme.onBackground,
+                color = if (isMonochrome) MaterialTheme.colorScheme.onBackground else Color.White,
                 fontSize = fontSize,
                 letterSpacing = 2.sp
             )

@@ -9,16 +9,16 @@ import android.graphics.drawable.Drawable
 
 /**
  * Nothing OS dot matrix fallback cover.
- * Draws 3-letter game abbreviation as a 4×7 dot matrix on Nothing red background.
- *
- * Replaces:
- * lemuroid-common/src/main/java/com/swordfish/lemuroid/common/drawable/TextDrawable.kt
+ * Draws 3-letter game abbreviation as a dot matrix.
  */
-class TextDrawable(private val text: String, private val color: Int) : Drawable() {
+class TextDrawable(
+    private val text: String,
+    private val bgColor: Int,
+    private val isMonochrome: Boolean = true
+) : Drawable() {
 
-    // Nothing red — ignores the passed color entirely
-    private val bgColor = 0xFF000000.toInt()
-    private val dotColor = Color.WHITE
+    private val dotColor = if (isMonochrome) Color.WHITE else Color.argb(40, 255, 255, 255)
+    private val activeDotColor = Color.WHITE
 
     // 4-wide × 7-tall bitmap font
     private val font = mapOf(
@@ -74,26 +74,40 @@ class TextDrawable(private val text: String, private val color: Int) : Drawable(
         mPaint.color = bgColor
         canvas.drawRect(bounds, mPaint)
 
+        // Dot grid background pattern
+        val spacing = w / 32f
+        val dotRadius = spacing / 3f
+        mPaint.color = if (isMonochrome) Color.argb(50, 255, 255, 255) else Color.argb(40, 255, 255, 255)
+        
+        var x = spacing / 2f
+        while (x < w) {
+            var y = spacing / 2f
+            while (y < h) {
+                canvas.drawCircle(x, y, dotRadius, mPaint)
+                y += spacing
+            }
+            x += spacing
+        }
+
         val chars = text.uppercase().take(3)
         val n = chars.length
         if (n == 0) return
 
         val charCols   = 4
         val charRows   = 7
-        val charGap    = 2          // extra cols of gap between letters (wider spacing)
+        val charGap    = 2
         val totalCols  = n * charCols + (n - 1) * charGap
 
-        // Scale to ~72% of the tile
         val cellW = w * 0.72f / totalCols
         val cellH = h * 0.72f / charRows
-        val dotW  = cellW * 0.72f   // slightly wider dots
+        val dotW  = cellW * 0.72f
         val dotH  = cellH * 0.72f
         val r     = minOf(dotW, dotH) * 0.28f
 
         val ox = (w - totalCols * cellW) / 2f
         val oy = (h - charRows * cellH) / 2f
 
-        mPaint.color = dotColor
+        mPaint.color = activeDotColor
 
         chars.forEachIndexed { ci, ch ->
             val glyph = font[ch] ?: font['?']!!
