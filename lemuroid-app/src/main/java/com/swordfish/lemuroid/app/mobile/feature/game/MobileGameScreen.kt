@@ -24,6 +24,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Slider
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -152,8 +153,10 @@ fun MobileGameScreen(viewModel: BaseGameScreenViewModel) {
                 modifier = Modifier.fillMaxSize(),
                 constraintSet =
                     GameScreenLayout.buildConstraintSet(
-                        isLandscape,
-                        currentControllerConfig?.allowTouchOverlay ?: true,
+                        isLandscape = isLandscape,
+                        allowTouchOverlay = currentControllerConfig?.allowTouchOverlay ?: true,
+                        verticalControls = touchControllerSettings?.verticalControls ?: false,
+                        verticalSide = touchControllerSettings?.verticalControlsSide ?: 1,
                     ),
             ) {
                 Box(
@@ -318,6 +321,30 @@ private fun MenuEditTouchControls(
                                     touchControllerSettings.copy(rotation = it),
                                 )
                             },
+                        )
+                    }
+                }
+                MenuEditTouchControlRow(Icons.Default.Height, "Vertical Layout", 0f) {
+                    Switch(
+                        checked = touchControllerSettings.verticalControls,
+                        onCheckedChange = {
+                            viewModel.updateTouchControllerSettings(
+                                touchControllerSettings.copy(verticalControls = it),
+                            )
+                        },
+                    )
+                }
+                if (touchControllerSettings.verticalControls) {
+                    MenuEditTouchControlRow(Icons.Default.Height, "Side (L/R)", 0f) {
+                        Slider(
+                            value = touchControllerSettings.verticalControlsSide.toFloat(),
+                            onValueChange = {
+                                viewModel.updateTouchControllerSettings(
+                                    touchControllerSettings.copy(verticalControlsSide = it.toInt()),
+                                )
+                            },
+                            valueRange = 0f..1f,
+                            steps = 0,
                         )
                     }
                 }

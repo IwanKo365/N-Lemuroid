@@ -16,11 +16,59 @@ object GameScreenLayout {
     fun buildConstraintSet(
         isLandscape: Boolean,
         allowTouchOverlay: Boolean,
+        verticalControls: Boolean = false,
+        verticalSide: Int = 1, // 0: Left, 1: Right
     ): ConstraintSet {
         return when {
+            verticalControls -> buildConstraintSetVertical(verticalSide)
             !isLandscape -> buildConstraintSetPortrait()
             allowTouchOverlay -> buildConstraintSetLandscape()
             else -> buildConstraintSetLandscapeNoOverlay()
+        }
+    }
+
+    private fun buildConstraintSetVertical(side: Int): ConstraintSet {
+        return ConstraintSet {
+            val gameView = createRefFor(CONSTRAINTS_GAME_VIEW)
+            val leftPad = createRefFor(CONSTRAINTS_LEFT_PAD)
+            val rightPad = createRefFor(CONSTRAINTS_RIGHT_PAD)
+            val gameContainer = createRefFor(CONSTRAINTS_GAME_CONTAINER)
+
+            constrain(gameView) {
+                width = Dimension.fillToConstraints
+                height = Dimension.fillToConstraints
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+                absoluteLeft.linkTo(parent.absoluteLeft)
+                absoluteRight.linkTo(parent.absoluteRight)
+            }
+
+            if (side == 0) { // Left
+                constrain(leftPad) {
+                    absoluteLeft.linkTo(parent.absoluteLeft)
+                    bottom.linkTo(parent.bottom)
+                }
+                constrain(rightPad) {
+                    absoluteLeft.linkTo(parent.absoluteLeft)
+                    bottom.linkTo(leftPad.top)
+                }
+            } else { // Right
+                constrain(leftPad) {
+                    absoluteRight.linkTo(parent.absoluteRight)
+                    bottom.linkTo(parent.bottom)
+                }
+                constrain(rightPad) {
+                    absoluteRight.linkTo(parent.absoluteRight)
+                    bottom.linkTo(leftPad.top)
+                }
+            }
+
+            constrain(gameContainer) {
+                absoluteLeft.linkTo(gameView.absoluteLeft)
+                absoluteRight.linkTo(gameView.absoluteRight)
+                top.linkTo(gameView.top)
+                bottom.linkTo(gameView.bottom)
+            }
         }
     }
 
