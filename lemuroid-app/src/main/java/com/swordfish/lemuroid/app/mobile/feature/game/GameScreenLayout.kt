@@ -38,7 +38,7 @@ object GameScreenLayout {
                 width = Dimension.fillToConstraints
                 height = Dimension.fillToConstraints
                 top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
+                bottom.linkTo(rightPad.top) // Push screen to the top half
                 absoluteLeft.linkTo(parent.absoluteLeft)
                 absoluteRight.linkTo(parent.absoluteRight)
             }
