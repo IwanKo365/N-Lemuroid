@@ -3,6 +3,7 @@ package com.swordfish.lemuroid.app.mobile.feature.game
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import androidx.compose.ui.unit.dp
 
 object GameScreenLayout {
     const val CONSTRAINTS_BOTTOM_CONTAINER = "bottomContainer"
@@ -38,7 +39,7 @@ object GameScreenLayout {
                 width = Dimension.fillToConstraints
                 height = Dimension.fillToConstraints
                 top.linkTo(parent.top)
-                bottom.linkTo(rightPad.top) // Push screen to the top half
+                bottom.linkTo(rightPad.top, margin = 16.dp) // Push screen to the top half with margin
                 absoluteLeft.linkTo(parent.absoluteLeft)
                 absoluteRight.linkTo(parent.absoluteRight)
             }
@@ -46,20 +47,28 @@ object GameScreenLayout {
             if (side == 0) { // Left
                 constrain(leftPad) {
                     absoluteLeft.linkTo(parent.absoluteLeft)
-                    bottom.linkTo(parent.bottom)
+                    bottom.linkTo(parent.bottom, margin = 16.dp)
+                    scaleX = 0.85f
+                    scaleY = 0.85f
                 }
                 constrain(rightPad) {
                     absoluteLeft.linkTo(parent.absoluteLeft)
-                    bottom.linkTo(leftPad.top)
+                    bottom.linkTo(leftPad.top, margin = (-24).dp) // Stack closer
+                    scaleX = 0.85f
+                    scaleY = 0.85f
                 }
             } else { // Right
                 constrain(leftPad) {
                     absoluteRight.linkTo(parent.absoluteRight)
-                    bottom.linkTo(parent.bottom)
+                    bottom.linkTo(parent.bottom, margin = 16.dp)
+                    scaleX = 0.85f
+                    scaleY = 0.85f
                 }
                 constrain(rightPad) {
                     absoluteRight.linkTo(parent.absoluteRight)
-                    bottom.linkTo(leftPad.top)
+                    bottom.linkTo(leftPad.top, margin = (-24).dp) // Stack closer
+                    scaleX = 0.85f
+                    scaleY = 0.85f
                 }
             }
 

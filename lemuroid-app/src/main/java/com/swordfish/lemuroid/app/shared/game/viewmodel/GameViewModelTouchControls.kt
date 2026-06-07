@@ -218,6 +218,10 @@ class GameViewModelTouchControls(
         }
     }
 
+    fun getTouchControllerID(): TouchControllerID {
+        return touchControlId.value
+    }
+
     companion object {
         const val MENU_LOADING_ANIMATION_MILLIS = 500
     }
