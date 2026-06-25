@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -21,8 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.swordfish.lemuroid.R
-import com.swordfish.lemuroid.app.utils.android.settings.booleanPreferenceState
 import com.swordfish.lemuroid.lib.library.GameSystem
 import com.swordfish.lemuroid.lib.library.db.entity.Game
 
@@ -38,11 +37,6 @@ fun LemuroidGameCard(
     val systemName = context.getString(GameSystem.findById(game.systemId).shortTitleResId)
     val borderColor = MaterialTheme.colorScheme.onBackground
     val contentColor = MaterialTheme.colorScheme.onBackground
-    val primaryColor = MaterialTheme.colorScheme.primary
-    
-    val isMonochrome = booleanPreferenceState(R.string.pref_key_monochrome_icons, true).value
-    val pillBackground = if (isMonochrome) Color.Transparent else primaryColor
-    val pillBorderColor = if (isMonochrome) borderColor else primaryColor
 
     Column(
         modifier = modifier
@@ -57,15 +51,15 @@ fun LemuroidGameCard(
         Box(
             modifier = Modifier
                 .padding(vertical = 8.dp)
-                .background(pillBackground, RoundedCornerShape(100))
-                .border(1.dp, pillBorderColor, RoundedCornerShape(100))
+                .background(Color.Transparent, RoundedCornerShape(100))
+                .border(1.dp, borderColor, RoundedCornerShape(100))
                 .padding(horizontal = 12.dp, vertical = 2.dp)
         ) {
             Text(
                 text = systemName,
                 fontFamily = NdotFontFamily,
                 style = MaterialTheme.typography.labelSmall,
-                color = if (isMonochrome) contentColor else MaterialTheme.colorScheme.onPrimary,
+                color = contentColor,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,

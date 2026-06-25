@@ -20,7 +20,6 @@ import com.swordfish.lemuroid.app.mobile.feature.gamemenu.tilt.TiltConfiguration
 import com.swordfish.lemuroid.app.shared.GameMenuContract
 import com.swordfish.lemuroid.app.utils.android.settings.LemuroidSettingsList
 import com.swordfish.lemuroid.app.utils.android.settings.LemuroidSettingsMenuLink
-import com.swordfish.lemuroid.app.utils.android.settings.LemuroidSettingsSlider
 import com.swordfish.lemuroid.app.utils.android.settings.LemuroidSettingsSwitch
 import kotlin.reflect.KFunction1
 
@@ -108,33 +107,6 @@ fun GameMenuHomeScreen(
                 onCheckedChange = {
                     onResult { putExtra(GameMenuContract.RESULT_ENABLE_FAST_FORWARD, it) }
                 },
-            )
-        }
-
-        LemuroidSettingsSwitch(
-            title = { Text(text = stringResource(id = R.string.settings_title_vertical_controls)) },
-            subtitle = { Text(text = stringResource(id = R.string.settings_description_vertical_controls)) },
-            icon = {
-                Icon(
-                    painterResource(R.drawable.ic_menu_controls),
-                    contentDescription = stringResource(id = R.string.settings_title_vertical_controls),
-                )
-            },
-            state = rememberMemoryBooleanSettingState(gameMenuRequest.verticalControls),
-            onCheckedChange = {
-                onResult { putExtra(GameMenuContract.RESULT_SET_VERTICAL_CONTROLS, it) }
-            },
-        )
-
-        if (gameMenuRequest.verticalControls) {
-            LemuroidSettingsList(
-                title = { Text(text = stringResource(id = R.string.settings_title_vertical_controls_side)) },
-                items = listOf(stringResource(R.string.vertical_controls_side_left), stringResource(R.string.vertical_controls_side_right)),
-                useSelectedValueAsSubtitle = true,
-                state = rememberMemoryIntSettingState(gameMenuRequest.verticalControlsSide),
-                onItemSelected = { index, _ ->
-                    onResult { putExtra(GameMenuContract.RESULT_SET_VERTICAL_CONTROLS_SIDE, index) }
-                }
             )
         }
 

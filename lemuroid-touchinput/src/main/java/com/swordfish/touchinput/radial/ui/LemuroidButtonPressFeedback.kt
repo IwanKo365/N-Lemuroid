@@ -30,9 +30,10 @@ fun LemuroidButtonPressFeedback(
     pressed: Boolean,
     animationDurationMillis: Int,
     icon: Int,
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = Modifier.size(96.dp),
+        modifier = modifier.size(96.dp),
         contentAlignment = Alignment.Center,
     ) {
         var shouldShow by remember { mutableStateOf(false) }

@@ -68,13 +68,9 @@
     <string name="settings_description_accent_yellow">Switch from Nothing Red to Nothing Yellow</string>
     <string name="pref_key_accent_yellow" translatable="false">pref_key_accent_yellow</string>
 
-    <string name="settings_title_vertical_controls">Vertical controls</string>
-    <string name="settings_description_vertical_controls">Place all controls on one side of the screen</string>
-    <string name="pref_key_vertical_controls" translatable="false">pref_key_vertical_controls</string>
-    <string name="settings_title_vertical_controls_side">Vertical controls side</string>
-    <string name="pref_key_vertical_controls_side" translatable="false">pref_key_vertical_controls_side</string>
-    <string name="vertical_controls_side_left">Left</string>
-    <string name="vertical_controls_side_right">Right</string>
+    <string name="settings_title_theme_gruvbox">Gruvbox theme</string>
+    <string name="settings_description_theme_gruvbox">Use retro-inspired earth tones</string>
+    <string name="pref_key_theme_gruvbox" translatable="false">pref_key_theme_gruvbox</string>
 
     <string name="settings_title_gamepad_settings">External devices</string>
     <string name="settings_description_gamepad_settings">Configure external gamepads and keyboards</string>

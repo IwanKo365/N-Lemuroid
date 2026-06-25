@@ -194,6 +194,8 @@ private fun CustomisationSettings() {
         title = { Text(text = stringResource(id = R.string.settings_category_customisation)) },
     ) {
         val followSystem = booleanPreferenceState(R.string.pref_key_theme_follow_system, true)
+        val isGruvbox = booleanPreferenceState(R.string.pref_key_theme_gruvbox, false)
+
         LemuroidSettingsSwitch(
             state = followSystem,
             title = { Text(text = stringResource(id = R.string.settings_title_theme_follow_system)) },
@@ -207,15 +209,22 @@ private fun CustomisationSettings() {
             )
         }
         LemuroidSettingsSwitch(
-            state = booleanPreferenceState(R.string.pref_key_monochrome_icons, true),
-            title = { Text(text = stringResource(id = R.string.settings_title_monochrome_icons)) },
-            subtitle = { Text(text = stringResource(id = R.string.settings_description_monochrome_icons)) },
+            state = isGruvbox,
+            title = { Text(text = stringResource(id = R.string.settings_title_theme_gruvbox)) },
+            subtitle = { Text(text = stringResource(id = R.string.settings_description_theme_gruvbox)) },
         )
-        LemuroidSettingsSwitch(
-            state = booleanPreferenceState(R.string.pref_key_accent_yellow, false),
-            title = { Text(text = stringResource(id = R.string.settings_title_accent_yellow)) },
-            subtitle = { Text(text = stringResource(id = R.string.settings_description_accent_yellow)) },
-        )
+        if (!isGruvbox.value) {
+            LemuroidSettingsSwitch(
+                state = booleanPreferenceState(R.string.pref_key_monochrome_icons, true),
+                title = { Text(text = stringResource(id = R.string.settings_title_monochrome_icons)) },
+                subtitle = { Text(text = stringResource(id = R.string.settings_description_monochrome_icons)) },
+            )
+            LemuroidSettingsSwitch(
+                state = booleanPreferenceState(R.string.pref_key_accent_yellow, false),
+                title = { Text(text = stringResource(id = R.string.settings_title_accent_yellow)) },
+                subtitle = { Text(text = stringResource(id = R.string.settings_description_accent_yellow)) },
+            )
+        }
     }
 }
 

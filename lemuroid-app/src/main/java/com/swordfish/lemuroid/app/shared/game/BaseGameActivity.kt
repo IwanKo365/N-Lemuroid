@@ -47,12 +47,10 @@ import com.swordfish.lemuroid.lib.saves.SavesManager
 import com.swordfish.lemuroid.lib.saves.StatesManager
 import com.swordfish.lemuroid.lib.saves.StatesPreviewManager
 import com.swordfish.touchinput.radial.sensors.TiltConfiguration
-import com.swordfish.touchinput.radial.settings.TouchControllerSettingsManager
 import dagger.Lazy
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -138,7 +136,9 @@ abstract class BaseGameActivity : ImmersiveActivity() {
             val useYellowAccent = rememberSafePreferenceBooleanSettingState(getString(R.string.pref_key_accent_yellow), false, prefs).value
             val primaryColor = if (useYellowAccent) AppYellow else AppPrimary
 
-            AppTheme(darkTheme = darkTheme, useSurface = false, primaryColor = primaryColor) {
+            val isGruvbox = rememberSafePreferenceBooleanSettingState(getString(R.string.pref_key_theme_gruvbox), false, prefs).value
+
+            AppTheme(darkTheme = darkTheme, isGruvbox = isGruvbox, useSurface = false, primaryColor = primaryColor) {
                 BaseGameScreen(viewModel = baseGameScreenViewModel) {
                     GameScreen(viewModel)
                 }
@@ -235,19 +235,6 @@ abstract class BaseGameActivity : ImmersiveActivity() {
                 this.putExtra(GameMenuContract.EXTRA_CURRENT_TILT_CONFIG, currentTiltConfiguration)
                 // TODO PADS... Make sure to avoid passing this if a physical pad is connected.
                 this.putExtra(GameMenuContract.EXTRA_TILT_ALL_CONFIGS, tiltConfigurations.toTypedArray())
-                
-                // Read current touch settings directly to pass to menu
-                val prefs = SharedPreferencesHelper.getSharedPreferences(applicationContext)
-                val isLandscape = resources.configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE
-                val orientation = if (isLandscape) TouchControllerSettingsManager.Orientation.LANDSCAPE else TouchControllerSettingsManager.Orientation.PORTRAIT
-                val controllerId = baseGameScreenViewModel.getTouchControllerID()
-                val settingsKey = "touch_controller_settings_${controllerId}_${orientation.ordinal}"
-                val currentSettings = prefs.getString(settingsKey, null)
-                    ?.let { kotlinx.serialization.json.Json.decodeFromString(TouchControllerSettingsManager.Settings.serializer(), it) }
-                    ?: TouchControllerSettingsManager.Settings()
-                
-                this.putExtra(GameMenuContract.EXTRA_VERTICAL_CONTROLS, currentSettings.verticalControls)
-                this.putExtra(GameMenuContract.EXTRA_VERTICAL_CONTROLS_SIDE, currentSettings.verticalControlsSide)
             }
         startActivityForResult(intent, DIALOG_REQUEST)
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
@@ -443,34 +430,6 @@ abstract class BaseGameActivity : ImmersiveActivity() {
             if (data?.hasExtra(GameMenuContract.RESULT_CHANGE_TILT_CONFIG) == true) {
                 val tiltConfig = data.serializable<TiltConfiguration>(GameMenuContract.RESULT_CHANGE_TILT_CONFIG)
                 baseGameScreenViewModel.changeTiltConfiguration(tiltConfig!!)
-            }
-            if (data?.hasExtra(GameMenuContract.RESULT_SET_VERTICAL_CONTROLS) == true) {
-                val vertical = data.getBooleanExtra(GameMenuContract.RESULT_SET_VERTICAL_CONTROLS, false)
-                lifecycleScope.launch {
-                    val controllerId = baseGameScreenViewModel.getTouchControllerID()
-                    val orientation = if (resources.configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) TouchControllerSettingsManager.Orientation.LANDSCAPE else TouchControllerSettingsManager.Orientation.PORTRAIT
-                    val prefs = SharedPreferencesHelper.getSharedPreferences(applicationContext)
-                    val settingsKey = "touch_controller_settings_${controllerId}_${orientation.ordinal}"
-                    val currentSettings = prefs.getString(settingsKey, null)
-                        ?.let { kotlinx.serialization.json.Json.decodeFromString(TouchControllerSettingsManager.Settings.serializer(), it) }
-                        ?: TouchControllerSettingsManager.Settings()
-
-                    baseGameScreenViewModel.updateTouchControllerSettings(currentSettings.copy(verticalControls = vertical))
-                }
-            }
-            if (data?.hasExtra(GameMenuContract.RESULT_SET_VERTICAL_CONTROLS_SIDE) == true) {
-                val side = data.getIntExtra(GameMenuContract.RESULT_SET_VERTICAL_CONTROLS_SIDE, 1)
-                lifecycleScope.launch {
-                    val controllerId = baseGameScreenViewModel.getTouchControllerID()
-                    val orientation = if (resources.configuration.orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) TouchControllerSettingsManager.Orientation.LANDSCAPE else TouchControllerSettingsManager.Orientation.PORTRAIT
-                    val prefs = SharedPreferencesHelper.getSharedPreferences(applicationContext)
-                    val settingsKey = "touch_controller_settings_${controllerId}_${orientation.ordinal}"
-                    val currentSettings = prefs.getString(settingsKey, null)
-                        ?.let { kotlinx.serialization.json.Json.decodeFromString(TouchControllerSettingsManager.Settings.serializer(), it) }
-                        ?: TouchControllerSettingsManager.Settings()
-
-                    baseGameScreenViewModel.updateTouchControllerSettings(currentSettings.copy(verticalControlsSide = side))
-                }
             }
         }
     }

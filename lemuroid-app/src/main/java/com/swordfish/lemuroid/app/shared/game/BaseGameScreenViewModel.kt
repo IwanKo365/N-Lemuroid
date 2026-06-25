@@ -237,10 +237,6 @@ class BaseGameScreenViewModel(
         return touchControls.isMenuPressed()
     }
 
-    fun getTouchControllerID(): com.swordfish.touchinput.radial.settings.TouchControllerID {
-        return touchControls.getTouchControllerID()
-    }
-
     suspend fun saveSlot(index: Int) {
         if (loadingState.value) return
         withLoading {

@@ -7,15 +7,14 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Height
 import androidx.compose.material.icons.filled.OpenInFull
@@ -152,17 +151,14 @@ fun MobileGameScreen(viewModel: BaseGameScreenViewModel) {
                 modifier = Modifier.fillMaxSize(),
                 constraintSet =
                     GameScreenLayout.buildConstraintSet(
-                        isLandscape = isLandscape,
-                        allowTouchOverlay = currentControllerConfig?.allowTouchOverlay ?: true,
-                        verticalControls = touchControllerSettings?.verticalControls ?: false,
-                        verticalSide = touchControllerSettings?.verticalControlsSide ?: 1,
+                        isLandscape,
+                        currentControllerConfig?.allowTouchOverlay ?: true,
                     ),
             ) {
                 Box(
                     modifier =
                         Modifier
                             .layoutId(GameScreenLayout.CONSTRAINTS_GAME_VIEW)
-                            .windowInsetsPadding(WindowInsets.displayCutout.only(WindowInsetsSides.Top))
                             .onGloballyPositioned { viewportPosition.value = it.boundsInRoot() },
                 )
 
@@ -273,12 +269,14 @@ private fun MenuEditTouchControls(
                     .fillMaxWidth()
                     .wrapContentHeight(),
         ) {
+            val scrollState = rememberScrollState()
             Column(
                 modifier =
                     Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
-                        .padding(8.dp),
+                        .padding(8.dp)
+                        .verticalScroll(scrollState),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 MenuEditTouchControlRow(Icons.Default.OpenInFull, "Scale", 0f) {

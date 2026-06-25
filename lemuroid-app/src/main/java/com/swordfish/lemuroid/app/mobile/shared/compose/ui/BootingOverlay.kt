@@ -108,9 +108,12 @@ fun BootingOverlay(
     }
 
     // Indicator light color animation
+    val isGruvbox = LocalAppThemeSettings.current.isGruvbox
     val readyColor = MaterialTheme.colorScheme.primary
+    val offColor = if (isGruvbox) MaterialTheme.colorScheme.outline else Color.DarkGray
+    
     val indicatorColor by animateColorAsState(
-        targetValue = if (isReady) readyColor else Color.DarkGray,
+        targetValue = if (isReady) readyColor else offColor,
         animationSpec = tween(300),
         label = "indicator"
     )
@@ -165,8 +168,21 @@ fun BootingOverlay(
                     contentAlignment = Alignment.TopCenter
                 ) {
                     // Wide "Game Boy" Screen, perfectly centered and cut off at the bottom
-                    val screenBg = if (MaterialTheme.colorScheme.background == Color.Black) Color(0xFF0F0F0F) else Color(0xFFE8E8E8)
-                    val screenBorder = if (MaterialTheme.colorScheme.background == Color.Black) Color.DarkGray else Color.LightGray
+                    val screenBg = if (isGruvbox) {
+                        MaterialTheme.colorScheme.surfaceVariant
+                    } else if (MaterialTheme.colorScheme.background == Color.Black) {
+                        Color(0xFF0F0F0F)
+                    } else {
+                        Color(0xFFE8E8E8)
+                    }
+                    
+                    val screenBorder = if (isGruvbox) {
+                        MaterialTheme.colorScheme.outline
+                    } else if (MaterialTheme.colorScheme.background == Color.Black) {
+                        Color.DarkGray
+                    } else {
+                        Color.LightGray
+                    }
                     
                     Box(
                         modifier = Modifier

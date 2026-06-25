@@ -49,11 +49,22 @@ private val PlaceholderColors = listOf(
     Color(0xFFFF9500)  // Orange
 )
 
+private val GruvboxPlaceholderColors = listOf(
+    GruvboxRed,
+    GruvboxGreen,
+    GruvboxYellow,
+    GruvboxBlue,
+    GruvboxPurple,
+    GruvboxAqua,
+    GruvboxOrange
+)
+
 @Composable
 fun LemuroidGameImage(
     modifier: Modifier = Modifier,
     game: Game,
 ) {
+    val isGruvbox = LocalAppThemeSettings.current.isGruvbox
     val monochromeIcons = booleanPreferenceState(R.string.pref_key_monochrome_icons, true).value
 
     SubcomposeAsyncImage(
@@ -67,7 +78,7 @@ fun LemuroidGameImage(
                 .fillMaxWidth()
                 .aspectRatio(1.0f),
         contentScale = ContentScale.Crop,
-        colorFilter = if (monochromeIcons) ColorFilter.colorMatrix(grayscaleMatrix) else null,
+        colorFilter = if (monochromeIcons && !isGruvbox) ColorFilter.colorMatrix(grayscaleMatrix) else null,
         loading = { DotMatrixPlaceholder(game, fontSize = 48.sp) },
         error = { DotMatrixPlaceholder(game, fontSize = 48.sp) },
     )
@@ -81,17 +92,22 @@ fun DotMatrixPlaceholder(
     backgroundColor: Color = MaterialTheme.colorScheme.background,
     showText: Boolean = true
 ) {
+    val isGruvbox = LocalAppThemeSettings.current.isGruvbox
     val isMonochrome = booleanPreferenceState(R.string.pref_key_monochrome_icons, true).value
     
-    val bgColor = if (isMonochrome) {
+    val palette = if (isGruvbox) GruvboxPlaceholderColors else PlaceholderColors
+    
+    val bgColor = if (isMonochrome && !isGruvbox) {
         backgroundColor
     } else {
-        val colorIndex = abs(game.id) % PlaceholderColors.size
-        PlaceholderColors[colorIndex]
+        val colorIndex = abs(game.id) % palette.size
+        palette[colorIndex]
     }
 
     val initials = remember(game) { computeInitials(game) }
-    val dotColor = if (isMonochrome) {
+    val dotColor = if (isGruvbox) {
+        MaterialTheme.colorScheme.onBackground.copy(alpha = 0.15f)
+    } else if (isMonochrome) {
         MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
     } else {
         Color.White.copy(alpha = 0.15f)
@@ -116,7 +132,7 @@ fun DotMatrixPlaceholder(
             Text(
                 text = initials,
                 fontFamily = NdotFontFamily,
-                color = if (isMonochrome) MaterialTheme.colorScheme.onBackground else Color.White,
+                color = if (isGruvbox || isMonochrome) MaterialTheme.colorScheme.onBackground else Color.White,
                 fontSize = fontSize,
                 letterSpacing = 2.sp
             )

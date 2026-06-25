@@ -3,7 +3,6 @@ package com.swordfish.lemuroid.app.mobile.feature.game
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
-import androidx.compose.ui.unit.dp
 
 object GameScreenLayout {
     const val CONSTRAINTS_BOTTOM_CONTAINER = "bottomContainer"
@@ -17,67 +16,11 @@ object GameScreenLayout {
     fun buildConstraintSet(
         isLandscape: Boolean,
         allowTouchOverlay: Boolean,
-        verticalControls: Boolean = false,
-        verticalSide: Int = 1, // 0: Left, 1: Right
     ): ConstraintSet {
         return when {
-            verticalControls -> buildConstraintSetVertical(verticalSide)
             !isLandscape -> buildConstraintSetPortrait()
             allowTouchOverlay -> buildConstraintSetLandscape()
             else -> buildConstraintSetLandscapeNoOverlay()
-        }
-    }
-
-    private fun buildConstraintSetVertical(side: Int): ConstraintSet {
-        return ConstraintSet {
-            val gameView = createRefFor(CONSTRAINTS_GAME_VIEW)
-            val leftPad = createRefFor(CONSTRAINTS_LEFT_PAD)
-            val rightPad = createRefFor(CONSTRAINTS_RIGHT_PAD)
-            val gameContainer = createRefFor(CONSTRAINTS_GAME_CONTAINER)
-
-            constrain(gameView) {
-                width = Dimension.fillToConstraints
-                height = Dimension.fillToConstraints
-                top.linkTo(parent.top)
-                bottom.linkTo(rightPad.top, margin = 16.dp) // Push screen to the top half with margin
-                absoluteLeft.linkTo(parent.absoluteLeft)
-                absoluteRight.linkTo(parent.absoluteRight)
-            }
-
-            if (side == 0) { // Left
-                constrain(leftPad) {
-                    absoluteLeft.linkTo(parent.absoluteLeft)
-                    bottom.linkTo(parent.bottom, margin = 16.dp)
-                    scaleX = 0.85f
-                    scaleY = 0.85f
-                }
-                constrain(rightPad) {
-                    absoluteLeft.linkTo(parent.absoluteLeft)
-                    bottom.linkTo(leftPad.top, margin = (-24).dp) // Stack closer
-                    scaleX = 0.85f
-                    scaleY = 0.85f
-                }
-            } else { // Right
-                constrain(leftPad) {
-                    absoluteRight.linkTo(parent.absoluteRight)
-                    bottom.linkTo(parent.bottom, margin = 16.dp)
-                    scaleX = 0.85f
-                    scaleY = 0.85f
-                }
-                constrain(rightPad) {
-                    absoluteRight.linkTo(parent.absoluteRight)
-                    bottom.linkTo(leftPad.top, margin = (-24).dp) // Stack closer
-                    scaleX = 0.85f
-                    scaleY = 0.85f
-                }
-            }
-
-            constrain(gameContainer) {
-                absoluteLeft.linkTo(gameView.absoluteLeft)
-                absoluteRight.linkTo(gameView.absoluteRight)
-                top.linkTo(gameView.top)
-                bottom.linkTo(gameView.bottom)
-            }
         }
     }
 

@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -54,11 +55,11 @@ fun LemuroidSystemCard(
             .clickable(onClick = onClick),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // System Name Pill at the top
+        // System Name Pill at the top (Uncolored)
         Box(
             modifier = Modifier
                 .padding(vertical = 8.dp)
-                .background(AppCardPillBackground, RoundedCornerShape(100))
+                .background(Color.Transparent, RoundedCornerShape(100))
                 .border(1.dp, borderColor, RoundedCornerShape(100))
                 .padding(horizontal = 12.dp, vertical = 2.dp)
         ) {
@@ -72,7 +73,7 @@ fun LemuroidSystemCard(
                 overflow = TextOverflow.Ellipsis,
             )
         }
-        
+
         HorizontalDivider(color = borderColor, thickness = 1.dp)
 
         // System Image in the middle

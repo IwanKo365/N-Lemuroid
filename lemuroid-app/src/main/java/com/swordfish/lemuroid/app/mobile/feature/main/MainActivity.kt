@@ -147,7 +147,9 @@ class MainActivity : RetrogradeComponentActivity(), BusyActivity {
         val useYellowAccent = booleanPreferenceState(R.string.pref_key_accent_yellow, false).value
         val primaryColor = if (useYellowAccent) com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppYellow else com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppPrimary
 
-        AppTheme(darkTheme = darkTheme, primaryColor = primaryColor) {
+        val isGruvbox = booleanPreferenceState(R.string.pref_key_theme_gruvbox, false).value
+
+        AppTheme(darkTheme = darkTheme, isGruvbox = isGruvbox, primaryColor = primaryColor) {
             val navBackStackEntry = navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry.value?.destination
             val currentRoute =

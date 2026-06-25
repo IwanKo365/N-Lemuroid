@@ -82,7 +82,7 @@ private fun LemuroidNavigationBar(
                 .padding(start = 8.dp, end = 8.dp) 
                 .fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
-            // Use the theme's secondary color for the dock
+            // Reverted to original transparent grey secondary color
             color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.95f),
             tonalElevation = 4.dp,
             shadowElevation = 8.dp

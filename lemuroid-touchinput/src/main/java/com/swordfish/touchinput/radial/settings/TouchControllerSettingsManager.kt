@@ -29,8 +29,6 @@ class TouchControllerSettingsManager(private val sharedPreferences: SharedPrefer
         val rotation: Float = DEFAULT_ROTATION,
         val marginX: Float = DEFAULT_MARGIN_X,
         val marginY: Float = DEFAULT_MARGIN_Y,
-        val verticalControls: Boolean = false,
-        val verticalControlsSide: Int = 1, // 0: Left, 1: Right
     )
 
     private fun computeInsetsPaddings(

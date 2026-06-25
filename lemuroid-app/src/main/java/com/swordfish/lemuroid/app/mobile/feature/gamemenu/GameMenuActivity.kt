@@ -47,6 +47,7 @@ import com.swordfish.lemuroid.app.mobile.feature.gamemenu.coreoptions.GameMenuCo
 import com.swordfish.lemuroid.app.mobile.feature.gamemenu.states.GameMenuStatesScreen
 import com.swordfish.lemuroid.app.mobile.feature.gamemenu.states.GameMenuStatesViewModel
 import com.swordfish.lemuroid.app.mobile.shared.compose.ui.AppTheme
+import com.swordfish.lemuroid.app.utils.android.settings.booleanPreferenceState
 import com.swordfish.lemuroid.app.shared.GameMenuContract
 import com.swordfish.lemuroid.app.shared.coreoptions.LemuroidCoreOption
 import com.swordfish.lemuroid.app.shared.input.InputDeviceManager
@@ -82,8 +83,6 @@ class GameMenuActivity : RetrogradeComponentActivity() {
         val currentDisk: Int,
         val currentTiltConfiguration: TiltConfiguration,
         val allTiltConfigurations: List<TiltConfiguration>,
-        val verticalControls: Boolean,
-        val verticalControlsSide: Int,
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -129,8 +128,6 @@ class GameMenuActivity : RetrogradeComponentActivity() {
                     intent.serializable<Array<TiltConfiguration>>(GameMenuContract.EXTRA_TILT_ALL_CONFIGS)
                         ?.toList()
                         ?: emptyList(),
-                verticalControls = extras?.getBoolean(GameMenuContract.EXTRA_VERTICAL_CONTROLS, false) ?: false,
-                verticalControlsSide = extras?.getInt(GameMenuContract.EXTRA_VERTICAL_CONTROLS_SIDE, 1) ?: 1,
             )
 
         setContent {
@@ -141,7 +138,8 @@ class GameMenuActivity : RetrogradeComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun GameMenuScreen(gameMenuRequest: GameMenuRequest) {
-        AppTheme {
+        val isGruvbox = booleanPreferenceState(R.string.pref_key_theme_gruvbox, false).value
+        AppTheme(isGruvbox = isGruvbox) {
             val navController = rememberNavController()
             val navBackStackEntry = navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry.value?.destination
