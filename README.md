@@ -1,10 +1,10 @@
-# N-Lemuroid
+# Nemuroid
 
 ## Description
 
-N-Lemuroid is a specialized fork of the Lemuroid project, redesigned with a Nothing OS aesthetic. Lemuroid is an open-source emulation project for Android based on Libretro. This fork emphasizes a distinct visual identity inspired by Nothing's design language, featuring a custom UI, unique typography, and optimized interactions.
+Nemuroid is a specialized fork of the Lemuroid project, redesigned with a Nothing OS aesthetic. Lemuroid is an open-source emulation project for Android based on Libretro. This fork emphasizes a distinct visual identity inspired by Nothing's design language, featuring a custom UI, unique typography, and optimized interactions.
 
-### UI Refinements (N-Lemuroid):
+### UI Refinements (Nemuroid):
 - **Nothing OS Aesthetics**: Redesigned UI components to match the Nothing OS look and feel.
 - **Ndot Font Integration**: Native support for Ndot57 typography across game titles, system names, and navigation.
 - **Floating Navigation Dock**: A custom, rounded-rectangular navigation bar positioned for easy access and modern aesthetics.

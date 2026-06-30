@@ -79,7 +79,7 @@ fun SettingsScreen(
             scanInProgress = scanInProgress,
         )
         SavesSettings(
-            onExportSaves = { exportLauncher.launch("n-lemuroid-saves.zip") },
+            onExportSaves = { exportLauncher.launch("nemuroid-saves.zip") },
             onImportSaves = { importLauncher.launch(arrayOf("application/zip")) },
         )
         CustomisationSettings()
