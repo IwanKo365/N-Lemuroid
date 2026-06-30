@@ -34,5 +34,5 @@ jobs:
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: nemuroid-debug-apk
+          name: n-lemuroid-debug-apk
           path: lemuroid-app/build/outputs/apk/freeBundle/debug/*.apk

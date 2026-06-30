@@ -7,7 +7,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "Nemuroid"
+rootProject.name = "N-Lemuroid"
 
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.10.0"
